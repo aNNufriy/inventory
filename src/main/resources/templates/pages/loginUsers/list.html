@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>LoginUsers</title>
+    <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
+    <link rel="stylesheet" href="/css/sticky-footer.css">
+</head>
+
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <table id="sample" class="display">
+                <thead>
+                <tr>
+                    <th>uuid</th>
+                    <th>login</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <script th:src="@{/webjars/datatables/1.10.21/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+    <script src="/js/dtInit/loginUsersList.js"></script>
+</th:block>
+</html>

@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/template">
+
+<th:block layout:fragment="specificScripts">
+    <script th:src="@{/webjars/datatables/1.10.16/js/jquery.dataTables.min.js}"/>
+    <script src="/public/lib/select2/select2.min.js"/>
+    <script>
+$(function () {
+    $("#semValueTypeGroups").select2({
+        placeholder: {
+            id: '-1', // the value of the option
+            text: 'Выберите типы значений'
+        }
+    });
+});
+    </script>
+</th:block>
+<th:block layout:fragment="specificStyles">
+    <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.16/css/jquery.dataTables.min.css}"/>
+    <link href="/public/lib/select2/select2.min.css" rel="stylesheet" />
+</th:block>
+<th:block layout:fragment="content">
+    <form role="form" method="post" class="form" action="/admin/semantic/nodetype/edit">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Сохранить</button>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" th:readonly="true" th:value="${semNodeType?.id}" id="id" name="id" class="form-control"
+                   placeholder="ID"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Название</label>
+            <input type="text" th:readonly="false" th:value="${semNodeType?.name}" id="name" name="name" class="form-control" placeholder="Название" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="parent">Родительский элемент</label>
+            <select id="parent" name="parent" class="form-control">
+                <option value="">выберите родительский элемент</option>
+                <option th:each="instance: ${semNodeTypes}"
+                        th:value="${instance.id}"
+                        th:text="${instance.name}"
+                        th:selected="${instance.id==semNodeType?.parent?.id}"/>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="semValueTypeGroups">Группы значений</label>
+            <select id="semValueTypeGroups" name="semValueTypeGroups" class="form-control" multiple="multiple">
+                <option th:each="instance: ${semValueTypeGroupsMap}"
+                        th:value="${instance.key.id}"
+                        th:text="${instance.key.name}"
+                        th:selected="${instance.value}"/>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Сохранить</button>
+    </form>
+</th:block>
+</html>

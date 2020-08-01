@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/template">
+
+<th:block layout:fragment="sidebar">
+    <div th:replace="admin/fragments/main-sidebar :: editorSidebar"/>
+</th:block>
+<th:block layout:fragment="specificScripts">
+    <script th:src="@{/webjars/datatables/1.10.16/js/jquery.dataTables.min.js}"/>
+    <script th:replace="admin/fragments/datatables-common :: datatables-config"/>
+    <script>
+        $(document).ready(function() {
+            $('#listTable').DataTable();
+            $('#listTable').removeClass('hidden');
+        });
+    </script>
+</th:block>
+<th:block layout:fragment="specificStyles">
+    <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.16/css/jquery.dataTables.min.css}"/>
+    <style>
+        .dataTable .btn {
+           width: 90pt;
+        }
+    </style>
+</th:block>
+<th:block layout:fragment="content">
+    <table id="listTable" class="table hover hidden">
+        <thead>
+        <tr style="font-size: 13px;">
+            <td>ID</td>
+            <td>Название</td>
+            <td>Действия</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="classifier : ${classifiers}">
+            <td th:text="${classifier.id}"/>
+            <td th:text="${classifier.name}"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/storage/cl/' + ${classifier.id}+'/edit'}">Редактировать</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+</html>

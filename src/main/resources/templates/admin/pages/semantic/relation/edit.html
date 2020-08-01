@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/template">
+
+<th:block layout:fragment="specificScripts">
+    <script th:src="@{/webjars/datatables/1.10.16/js/jquery.dataTables.min.js}"/>
+    <script>
+        var filesTable;
+        window.modelId = '<th:block th:if="${semRelation?.id!=null}" th:text="${semRelation.id}"/>'
+        $(document).ready(function() {
+            filesTable = $('#filesTable').DataTable();
+            $("#fileupload").change(function(event){
+                event.stopPropagation();
+                event.preventDefault();
+                uploadFile(event.target.files,function(){
+                    event.target.value=""
+                })
+            })
+        } );
+        function uploadFile(files, clearInputCallback){
+            var formData = new FormData();
+            formData.append('file', files[0]);
+            $.ajax({
+                url: '/file/uploadFile',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function(data, textStatus, jqXHR){
+                    clearInputCallback()
+                    filesTable.row.add([
+                        data.id,
+                        data.name,
+                        '<span id="tableActionsButtons"><a href="/admin/models/openfile/'+data.id+'">Скачать</a> | <a href="/admin/models/files/'
+                        +window.modelId
+                        +'/'+data.id+'/delete">Удалить</a>'
+                        +'</span>'
+                    ]).draw( false );
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert("ошибка: файл не загружен")
+                    console.log('ERRORS: ' + textStatus)
+                    }
+            });
+        }
+    </script>
+</th:block>
+<th:block layout:fragment="specificStyles">
+    <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.16/css/jquery.dataTables.min.css}"/>
+</th:block>
+<th:block layout:fragment="content">
+    <form role="form" method="post" class="form" action="/admin/semantic/relation/edit">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Сохранить</button>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" th:readonly="true" th:value="${semRelation?.id}" id="id" name="id" class="form-control"
+                   placeholder="ID"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Название</label>
+            <input type="text" th:readonly="false" th:value="${semRelation?.name}" id="name" name="name" class="form-control"
+                   placeholder="Название" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="bidirectional">
+                <input type="checkbox" th:checked="${semRelation?.bidirectional}" id="bidirectional" name="bidirectional"/>
+                Двунаправленное
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Сохранить</button>
+    </form>
+</th:block>
+</html>

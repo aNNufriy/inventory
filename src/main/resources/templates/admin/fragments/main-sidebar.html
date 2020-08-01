@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<script th:src="@{/webjars/jquery/3.1.1-1/jquery.min.js}"/>
+<body>
+<aside class="main-sidebar" th:fragment="adminSidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img th:src="@{/public/img/army.jpg}" class="img-circle"
+                     alt="User Image"/>
+            </div>
+            <div class="pull-left info">
+                <p sec:authentication="name">USERNAME</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-edit"></i> <span>Семантика</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"/></span>
+                </a>
+                <ul class="treeview-menu" style="display: block;">
+                    <th:block
+                            th:replace="admin/fragments/main-sidebar :: menuLink('/admin/semantic/nodetype','Типы данных','fa-circle')"/>
+                    <th:block
+                            th:replace="admin/fragments/main-sidebar :: menuLink('/admin/semantic/valuetype','Типы значений','fa-circle')"/>
+                    <th:block
+                            th:replace="admin/fragments/main-sidebar :: menuLink('/admin/semantic/relation','Типы отношений','fa-circle')"/>
+                    <th:block
+                            th:replace="admin/fragments/main-sidebar :: menuLink('/admin/semantic/typegroup','Группы типов значений','fa-circle')"/>
+                    <th:block
+                            th:replace="admin/fragments/main-sidebar :: menuLink('/admin/semantic/semnodetypes_relation','Отношения','fa-circle')"/>
+                </ul>
+            </li>
+            <li class="treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-database"></i> <span>Данные</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"/>
+            </span>
+                </a>
+                <ul class="treeview-menu" style="display: block;">
+                    <th:block
+                            th:replace="admin/fragments/main-sidebar :: menuLink('/admin/data/classifier','Классификаторы','fa-list')"/>
+                    <th:block
+                            th:replace="admin/fragments/main-sidebar :: menuLink('/admin/data/node','Объекты','fa-archive')"/>
+                </ul>
+            </li>
+        </ul>
+        <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+</aside>
+<aside class="main-sidebar" th:fragment="editorSidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img th:src="@{/public/img/army.jpg}" class="img-circle"
+                     alt="User Image"/>
+            </div>
+            <div class="pull-left info">
+                <p sec:authentication="name">USERNAME</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <th:block th:each="menuItem: ${menu}">
+                <th:block th:replace="admin/fragments/main-sidebar :: menuLink(${menuItem.link},${menuItem.name},'fa-circle')"/>
+            </th:block>
+            <th:block th:replace="admin/fragments/main-sidebar :: menuLink('/storage/cl','Классификаторы','fa-align-left')"/>
+        </ul>
+        <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+</aside>
+<th:block th:fragment="menuLink(link,name,linkClass)">
+    <li th:classappend="${#httpServletRequest.requestURI.contains(link)} ? 'active':'' ">
+        <a th:href="${link}">
+            <i class="fa" th:classappend="${linkClass}"></i>
+            <th:block th:text="${name}"/>
+        </a>
+    </li>
+</th:block>
+</body>
+</html>

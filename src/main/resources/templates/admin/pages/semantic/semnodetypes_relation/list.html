@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/template">
+
+<th:block layout:fragment="specificScripts">
+    <script th:src="@{/webjars/datatables/1.10.16/js/jquery.dataTables.min.js}"/>
+    <script th:replace="admin/fragments/datatables-common :: datatables-config"/>
+    <script>
+        $(document).ready(function() {
+            $('#listTable').DataTable();
+            $('#listTable').removeClass("hidden")
+        });
+    </script>
+</th:block>
+<th:block layout:fragment="specificStyles">
+    <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.16/css/jquery.dataTables.min.css}"/>
+    <style>
+        .dataTable .btn {
+           width: 90pt;
+        }
+    </style>
+</th:block>
+<th:block layout:fragment="content">
+    <a class="btn btn-primary btn-block" href="/admin/semantic/semnodetypes_relation/add" style="margin: 10px 0 10px 0;">Добавить</a>
+    <table id="listTable" class="table hover hidden">
+        <thead>
+        <tr style="font-size: 13px;">
+            <td>Левый тип (источник)</td>
+            <td>Правый тип (целевой)</td>
+            <td>Тип отношения</td>
+            <td>Двунаправленное</td>
+            <td>Действия</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="semNodeTypesRelation : ${semNodeTypesRelations}">
+            <td th:text="${semNodeTypesRelation.semNodeTypeLeft?.name}"/>
+            <td th:text="${semNodeTypesRelation.semNodeTypeRight?.name}"/>
+            <td th:text="${semNodeTypesRelation.semRelation?.name}"/>
+            <td th:text="${semNodeTypesRelation.semRelation.bidirectional}?'Да':'Нет'"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/admin/semantic/semnodetypes_relation/edit/' + ${semNodeTypesRelation.id}}">Редактировать</a>
+                <a class="btn btn-danger" th:href="@{'/admin/semantic/semnodetypes_relation/' + ${semNodeTypesRelation.id}} + '/delete'">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary btn-block" href="/admin/semantic/semnodetypes_relation/add" style="margin: 10px 0 10px 0;">Добавить</a>
+</th:block>
+</html>

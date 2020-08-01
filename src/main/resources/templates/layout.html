@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">INVENTORY </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" href="/css/sticky-footer.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+
+    <th:block th:replace="fragments/head/scripts :: commonScripts"/>
+    <th:block th:replace="fragments/head/styles :: commonStyles"/>
+</head>
+<body>
+<div th:replace="fragments/header :: mainMenu"></div>
+<div class="container">
+    <th:block layout:fragment="content"/>
+</div> <!-- /container -->
+
+<footer th:replace="fragments/footer :: footer"/>
+</body>
+</html>

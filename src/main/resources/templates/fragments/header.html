@@ -1,24 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="/static/css/sticky-footer.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <link rel="stylesheet" href="/static/css/jquery.dataTables.min.css">
-
-    <script src="/static/js/jquery-3.5.1.min.js"></script>
-    <script src="/static/js/jquery.dataTables.min.js"></script>
-
-    <title>Hello, world!</title>
-</head>
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav th:fragment="mainMenu" class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,35 +39,5 @@
         </form>
     </div>
 </nav>
-
-<div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-12">
-            <table id="sample" class="display">
-                <thead>
-                <tr>
-                    <th>uuid</th>
-                    <th>login</th>
-                    <th>actions</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-
-    <hr>
-
-</div> <!-- /container -->
-
-<footer class="footer">
-    <div class="container">
-        <span class="text-muted">© 2015-2020 inventory </span>
-    </div>
-</footer>
-<!-- bootstrap 4.5 -->
-<script src="/static/js/popper.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/inline.js"></script>
 </body>
 </html>

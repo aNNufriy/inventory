@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/template">
+
+<th:block layout:fragment="specificScripts">
+    <script>
+        $(document).ready(function () {
+
+            $('#innerType').change(function (event) {
+                if (event.target.selectedOptions[0].value == "CLASSIFIER") {
+                    $('#classifierFormGroup').removeClass("hidden")
+                } else {
+                    $('#classifierFormGroup').addClass("hidden")
+                    $('#classifier').val('')
+                }
+            })
+
+        });
+    </script>
+</th:block>
+<th:block layout:fragment="specificStyles">
+
+</th:block>
+<th:block layout:fragment="content">
+    <form role="form" method="post" class="form" action="/admin/semantic/valuetype/edit">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Сохранить</button>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" th:readonly="true" th:value="${semValueType?.id}" id="id" name="id" class="form-control"
+                   placeholder="ID"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Название</label>
+            <input type="text" th:readonly="false" th:value="${semValueType?.name}" id="name" name="name"
+                   class="form-control"
+                   placeholder="Название" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="innerType">Внутренний тип</label>
+            <select id="innerType" name="innerType" class="form-control">
+                <option th:each="innerType: ${innerTypes}"
+                        th:value="${innerType}"
+                        th:text="${innerType}"
+                        th:selected="${innerType}==${semValueType?.innerType}"/>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="semValueTypeGroup">Группа значений</label>
+            <select id="semValueTypeGroup" name="semValueTypeGroup" class="form-control">
+                <option th:each="instance: ${semValueTypeGroupsMap}"
+                        th:value="${instance.key.id}"
+                        th:text="${instance.key.name}"
+                        th:selected="${instance.value}"/>
+            </select>
+        </div>
+        <div class="form-group"
+             th:with="hdn=${semValueType?.innerType!=T(ru.testfield.algorithm.model.bfap.params.InnerType).CLASSIFIER}"
+             id="classifierFormGroup" th:classappend="${hdn}?'hidden'">
+            <label for="classifier">Классификатор</label>
+            <select id="classifier" name="classifier" class="form-control">
+                <option value="">Выберите классификатор...</option>
+                <option th:each="classifier: ${classifiers}"
+                        th:value="${classifier.id}"
+                        th:text="${classifier.name}"
+                        th:selected="${classifier?.id==semValueType?.classifier?.id}"/>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="singleValue">
+                <input type="checkbox" th:checked="${semValueType?.singleValue}" id="singleValue" name="singleValue"/>
+                Единственное значение
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="required">
+                <input type="checkbox" th:checked="${semValueType?.required}" id="required" name="required"/>
+                Обязательное значение
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="ordr">Порядок (для сортировки)</label>
+            <input type="text" th:readonly="false" th:value="${semValueType?.ordr}" id="ordr" name="ordr"
+                   class="form-control"
+                   placeholder="Число" required="required"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Сохранить</button>
+    </form>
+</th:block>
+</html>

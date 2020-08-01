@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+
+<th:block layout:fragment="content">
+
+    <div class="row">
+        <div class="col-md-12"><p>Oh,no! An error accured...</p></div>
+    </div>
+
+    <div class="row rowDesign">
+        <div class="col-md-4 ml-auto">
+            <span class="legend">Date</span>
+        </div>
+        <div class="col-md-8">
+            <span th:text="${timestamp}"></span>
+        </div>
+    </div>
+    <div class="row rowDesign">
+        <div class="col-md-4 ml-auto">
+            <span class="legend">Path</span>
+        </div>
+        <div class="col-md-8">
+            <span th:text="${path}"></span>
+        </div>
+    </div>
+    <div class="row rowDesign">
+        <div class="col-md-4 ml-auto">
+            <span class="legend">Error</span>
+        </div>
+        <div class="col-md-8">
+            <span th:text="${error}"></span>
+        </div>
+    </div>
+    <div class="row rowDesign">
+        <div class="col-md-4 ml-auto">
+            <span class="legend">Status</span>
+        </div>
+        <div class="col-md-8">
+            <span th:text="${status}"></span>
+        </div>
+    </div>
+    <div class="row rowDesign">
+        <div class="col-md-4 ml-auto">
+            <span class="legend">Message</span>
+        </div>
+        <div class="col-md-8">
+            <span th:text="${message}"></span>
+        </div>
+    </div>
+    <div class="row rowDesign">
+        <div class="col-md-4 ml-auto">
+            <span class="legend">Exception</span>
+        </div>
+        <div class="col-md-8">
+            <span th:text="${exception}"></span>
+        </div>
+    </div>
+    <div class="row rowDesign">
+        <div class="col-md-4 ml-auto">
+            <span class="legend">Trace</span>
+        </div>
+        <div class="col-md-8">
+            <span th:text="${trace}"></span>
+        </div>
+    </div>
+</th:block>
+</html>
