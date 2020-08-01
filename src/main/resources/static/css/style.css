@@ -1,0 +1,11 @@
+.dt-edit-btn {
+    color: white !important;
+    background: green;
+    font-weight: bold;
+}
+.dt-remove-btn {
+    color: white !important;
+    background: red;
+    font-weight: bold;
+}
+

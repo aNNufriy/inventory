@@ -19,8 +19,9 @@ public class InitializerListener {
 
     @EventListener({ContextRefreshedEvent.class})
     public void contextRefreshedEvent() {
+        loginUserRepository.deleteAll();
         for(int i=0; i<100; i++) {
-            LoginUser loginUser = new LoginUser(UUID.randomUUID(), "yyyy", "password", null);
+            LoginUser loginUser = new LoginUser(UUID.randomUUID(), "yyyy"+i, "password", null);
             loginUserRepository.save(loginUser);
         }
     }

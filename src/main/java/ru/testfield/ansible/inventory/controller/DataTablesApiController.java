@@ -4,22 +4,18 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.web.bind.annotation.*;
 import ru.testfield.ansible.inventory.model.LoginUser;
-import ru.testfield.ansible.inventory.model.AnsibleUser;
 import ru.testfield.ansible.inventory.repository.*;
 
 import javax.validation.Valid;
-import java.util.*;
 
 @RestController
-@RequestMapping("/api")
-public class ApiController {
+@RequestMapping("/api/dataTables")
+public class DataTablesApiController {
 
-    private final LoginGroupRepository loginGroupRepository;
     private final LoginUserRepository loginUserRepository;
 
-    public ApiController(LoginUserRepository loginUserRepository, LoginGroupRepository loginGroupRepository) {
+    public DataTablesApiController(LoginUserRepository loginUserRepository) {
         this.loginUserRepository = loginUserRepository;
-        this.loginGroupRepository = loginGroupRepository;
     }
 
     @RequestMapping(value = "/loginUsers", method = RequestMethod.POST)
