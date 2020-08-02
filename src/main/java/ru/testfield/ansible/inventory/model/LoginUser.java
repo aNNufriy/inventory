@@ -15,7 +15,7 @@ import java.util.UUID;
 public class LoginUser {
 
     @Id
-    private UUID uuid;
+    private UUID id;
 
     private String login;
 

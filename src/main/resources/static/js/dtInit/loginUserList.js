@@ -14,7 +14,7 @@ $(document).ready(function () {
         "processing": true,
         columns: [
             {
-                data: 'uuid',
+                data: 'id',
                 width: "40%"
             }, {
                 data: 'login',
@@ -25,10 +25,10 @@ $(document).ready(function () {
                 "searchable":false,
                 "sortable":false,
                 "data":null,
-                render: function ( data, type, row ) {
+                render: function ( data, type, _ ) {
                     if(type==='display'){
-                        let edit = "<button class='dt-edit-btn btn-success btn' data-uuid="+data.uuid+"><b>Edit</b></button>"
-                        let remove = "<button class='dt-remove-btn btn-danger btn' data-uuid="+data.uuid+"><b>Remove</b></button>"
+                        let edit = "<button class='dt-edit-btn btn-success btn' data-id="+data.id+"><b>Edit</b></button>";
+                        let remove = "<button class='dt-remove-btn btn-danger btn' data-id="+data.id+"><b>Remove</b></button>";
                         return  edit + " " + remove
                     }else{
                         return ''
@@ -36,22 +36,21 @@ $(document).ready(function () {
                 }
             }
         ],
-        "drawCallback": function( settings ) {
-            $(".dt-edit-btn").click(function(){
-                location.href = "/loginUsers/"+this.attributes['data-uuid'].value+"/edit";
-            })
+        "drawCallback": function() {
+            $(".dt-edit-btn").click(function(_){
+                location.href = "/loginUser/"+this.attributes['data-id'].value+"/edit";
+            });
             $(".dt-remove-btn").click(function(){
-                let url = "/api/loginUsers/"+this.attributes['data-uuid'].value;
+                let url = "/api/loginUser/"+this.attributes['data-id'].value;
                 if(confirm("Do you want to remove item?")){
                     $.ajax({
                         url: url,
                         type: 'DELETE',
-                        success: function(result) {
+                        success: function(_) {
                             document.dt.draw(false)
                         }
                     });
                 }
-
             })
         }
     })

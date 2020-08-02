@@ -15,7 +15,7 @@ public class ApiController {
         this.loginUserRepository = loginUserRepository;
     }
 
-    @RequestMapping(value = "/loginUsers/{userId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/loginUser/{userId}", method = RequestMethod.DELETE)
     public void deleteItem(@PathVariable UUID userId) {
         loginUserRepository.deleteById(userId);
     }

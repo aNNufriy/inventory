@@ -67,7 +67,7 @@ class LoginUserRepository0Test {
     @Order(5)
     public void delete() {
         LoginUser loginUser = loginUserRepository0.findByLogin("user-1");
-        loginUserRepository0.deleteById(loginUser.getUuid());
+        loginUserRepository0.deleteById(loginUser.getId());
         assertEquals(1, loginUserRepository0.count());
         assertEquals(4, loginGroupRepository.count());
     }

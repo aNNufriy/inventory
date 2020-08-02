@@ -17,6 +17,6 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(){
-        return "pages/loginUsers/list";
+            return "redirect:/loginUser";
     }
 }

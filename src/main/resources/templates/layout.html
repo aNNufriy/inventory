@@ -21,6 +21,14 @@
 <body>
 <div th:replace="fragments/header :: mainMenu"></div>
 <div class="container">
+    <div th:each="notification : ${notifications}">
+        <div class="alert" th:classappend="${notification.type.toString().toLowerCase()}">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span th:text="${notification.text}"/>
+        </div>
+    </div>
     <th:block layout:fragment="content"/>
 </div> <!-- /container -->
 

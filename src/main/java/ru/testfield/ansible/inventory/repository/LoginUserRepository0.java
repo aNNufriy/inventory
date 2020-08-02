@@ -51,7 +51,7 @@ public class LoginUserRepository0 {
     }
 
     public long count(){
-        Query queryTotal = em.createQuery("Select count(ah.uuid) from LoginUser ah");
+        Query queryTotal = em.createQuery("Select count(ah.id) from LoginUser ah");
         return (long) queryTotal.getSingleResult();
     }
 
