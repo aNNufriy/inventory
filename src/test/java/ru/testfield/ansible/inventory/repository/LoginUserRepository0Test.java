@@ -21,27 +21,27 @@ class LoginUserRepository0Test {
     private LoginUserRepository0 loginUserRepository0;
 
     @Autowired
-    private LoginGroupRepository loginGroupRepository;
+    private LoginUserGroupRepository loginUserGroupRepository;
 
     @Test
     @Order(1)
     public void deleteAll(){
         loginUserRepository0.deleteAll();
-        loginGroupRepository.deleteAll();
+        loginUserGroupRepository.deleteAll();
     }
 
     @Test
     @Order(2)
     public void save(){
         Set<LoginUserGroup> loginUserGroups = new HashSet<>();
-        loginUserGroups.add(new LoginUserGroup(UUID.randomUUID(),"group-1",null));
-        loginUserGroups.add(new LoginUserGroup(UUID.randomUUID(),"group-12",null));
+//        loginUserGroups.add(new LoginUserGroup(UUID.randomUUID(),"group-1",null));
+//        loginUserGroups.add(new LoginUserGroup(UUID.randomUUID(),"group-12",null));
 
         LoginUser loginUser = new LoginUser(UUID.randomUUID(),"user-1", "password", loginUserGroups);
 
         Set<LoginUserGroup> loginUserGroups2 = new HashSet<>();
-        loginUserGroups2.add(new LoginUserGroup(UUID.randomUUID(),"group-2",null));
-        loginUserGroups2.add(new LoginUserGroup(UUID.randomUUID(),"group-22",null));
+//        loginUserGroups2.add(new LoginUserGroup(UUID.randomUUID(),"group-2",null));
+//        loginUserGroups2.add(new LoginUserGroup(UUID.randomUUID(),"group-22",null));
 
         LoginUser loginUser2 = new LoginUser(UUID.randomUUID(),"user-2", "password", loginUserGroups2);
 
@@ -53,7 +53,7 @@ class LoginUserRepository0Test {
     @Order(3)
     public void count(){
         assertEquals(2, loginUserRepository0.count());
-        assertEquals(4, loginGroupRepository.count());
+        assertEquals(4, loginUserGroupRepository.count());
     }
 
     @Test
@@ -69,7 +69,7 @@ class LoginUserRepository0Test {
         LoginUser loginUser = loginUserRepository0.findByLogin("user-1");
         loginUserRepository0.deleteById(loginUser.getId());
         assertEquals(1, loginUserRepository0.count());
-        assertEquals(4, loginGroupRepository.count());
+        assertEquals(4, loginUserGroupRepository.count());
     }
 
     private void findUserByGroup(int number) {

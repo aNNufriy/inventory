@@ -15,9 +15,13 @@ import java.util.UUID;
 public class LoginUserGroup {
 
     @Id
-    private UUID uuid;
+    private UUID id;
 
     private String groupName;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private LoginUserGroup parent;
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
     private Set<LoginUser> loginUsers;

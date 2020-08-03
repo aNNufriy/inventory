@@ -4,6 +4,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.web.bind.annotation.*;
 import ru.testfield.ansible.inventory.model.LoginUser;
+import ru.testfield.ansible.inventory.model.LoginUserGroup;
 import ru.testfield.ansible.inventory.repository.*;
 
 import javax.validation.Valid;
@@ -14,19 +15,22 @@ import java.util.UUID;
 public class DataTablesApiController {
 
     private final LoginUserRepository loginUserRepository;
+    private final LoginUserGroupRepository loginUserGroupRepository;
 
-    public DataTablesApiController(LoginUserRepository loginUserRepository) {
+
+    public DataTablesApiController(LoginUserRepository loginUserRepository, LoginUserGroupRepository loginUserGroupRepository) {
         this.loginUserRepository = loginUserRepository;
+        this.loginUserGroupRepository = loginUserGroupRepository;
     }
 
-    @RequestMapping(value = "/loginUsers", method = RequestMethod.POST)
-    public DataTablesOutput<LoginUser> getUsers(@Valid @RequestBody DataTablesInput input) {
+    @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
+    public DataTablesOutput<LoginUser> getLoginUsers(@Valid @RequestBody DataTablesInput input) {
         return loginUserRepository.findAll(input);
     }
 
-    @RequestMapping(value = "/loginUsers/{userId}", method = RequestMethod.DELETE)
-    public void deleteItem(@PathVariable UUID userId) {
-        loginUserRepository.deleteById(userId);
+    @RequestMapping(value = "/loginUserGroup", method = RequestMethod.POST)
+    public DataTablesOutput<LoginUserGroup> getLoginUserGroups(@Valid @RequestBody DataTablesInput input) {
+        return loginUserGroupRepository.findAll(input);
     }
 
 }

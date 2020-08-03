@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
+</head>
+
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <table id="sample" class="display">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>groupName</th>
+                    <th>parent</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <script th:src="@{/webjars/datatables/1.10.21/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+    <script src="/js/dtInit/loginUserGroupList.js"></script>
+</th:block>
+</html>

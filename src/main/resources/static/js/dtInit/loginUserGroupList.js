@@ -2,7 +2,7 @@ $(document).ready(function () {
     document.dt = $('table#sample').DataTable({
         'ajax': {
             'contentType': 'application/json',
-            'url': '/api/dataTables/loginUser',
+            'url': '/api/dataTables/loginUserGroup',
             'type': 'POST',
             'data': function (d) {
                 return JSON.stringify(d);
@@ -17,14 +17,26 @@ $(document).ready(function () {
                 data: 'id',
                 width: "40%"
             }, {
-                data: 'login',
-                width: "40%"
-            },
-            {
+                data: 'groupName',
+                width: "15%"
+            }, {
+                data: 'parent',
                 width: "20%",
-                "searchable":false,
-                "sortable":false,
-                "data":null,
+                render: function ( data, type, _ ) {
+                    if(type==='display') {
+                        if(data!=null){
+                            //return '<a href="/loginUserGroup/'+data.id+'>'+data.groupName+'</a>'
+                            return "<a href='/loginUserGroup/"+data.id+"'>"+data.groupName+"</a>"
+                        }else{
+                            return 'no parent set'
+                        }
+                    }
+                }
+            }, {
+                data: null,
+                width: "20%",
+                searchable: false,
+                sortable: false,
                 render: function ( data, type, _ ) {
                     if(type==='display'){
                         let edit = "<button class='dt-edit-btn btn-success btn' data-id="+data.id+"><b>Edit</b></button>";
@@ -38,10 +50,10 @@ $(document).ready(function () {
         ],
         "drawCallback": function() {
             $(".dt-edit-btn").click(function(_){
-                location.href = "/api/loginUser/"+this.attributes['data-id'].value+"/edit";
+                location.href = "/loginUserGroup/"+this.attributes['data-id'].value+"/edit";
             });
             $(".dt-remove-btn").click(function(){
-                let url = "/loginUser/"+this.attributes['data-id'].value;
+                let url = "/api/loginUserGroup/"+this.attributes['data-id'].value;
                 if(confirm("Do you want to remove item?")){
                     $.ajax({
                         url: url,
