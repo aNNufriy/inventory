@@ -38,10 +38,10 @@ $(document).ready(function () {
         ],
         "drawCallback": function() {
             $(".dt-edit-btn").click(function(_){
-                location.href = "/api/loginUser/"+this.attributes['data-id'].value+"/edit";
+                location.href = "/loginUser/"+this.attributes['data-id'].value+"/edit";
             });
             $(".dt-remove-btn").click(function(){
-                let url = "/loginUser/"+this.attributes['data-id'].value;
+                let url = "/api/loginUser/"+this.attributes['data-id'].value;
                 if(confirm("Do you want to remove item?")){
                     $.ajax({
                         url: url,

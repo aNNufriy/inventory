@@ -1,5 +1,6 @@
 package ru.testfield.ansible.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,11 +20,25 @@ public class LoginUserGroup {
 
     private String groupName;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+    private Set<LoginUser> loginUsers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private Set<LoginUserGroup> children;
+
     @ManyToOne
-    @JoinColumn(name = "parent_id")
     private LoginUserGroup parent;
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
-    private Set<LoginUser> loginUsers;
+    @PreRemove
+    private void removeGroupFromUsers() {
+        for (LoginUser user : loginUsers) {
+            user.getGroups().remove(this);
+        }
+        for (LoginUserGroup childGroup : children) {
+            childGroup.parent = null;
+        }
+    }
 
 }

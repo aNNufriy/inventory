@@ -21,7 +21,7 @@ public class LoginUser {
 
     private String passwordBcryptHash;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<LoginUserGroup> groups;
 
 }

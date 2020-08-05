@@ -6,4 +6,5 @@ import ru.testfield.ansible.inventory.model.LoginUserGroup;
 import java.util.UUID;
 
 public interface LoginUserGroupRepository extends DataTablesRepository<LoginUserGroup, UUID> {
+
 }

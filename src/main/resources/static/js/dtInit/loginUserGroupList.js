@@ -25,11 +25,12 @@ $(document).ready(function () {
                 render: function ( data, type, _ ) {
                     if(type==='display') {
                         if(data!=null){
-                            //return '<a href="/loginUserGroup/'+data.id+'>'+data.groupName+'</a>'
                             return "<a href='/loginUserGroup/"+data.id+"'>"+data.groupName+"</a>"
                         }else{
                             return 'no parent set'
                         }
+                    }else{
+                        return type
                     }
                 }
             }, {
@@ -43,7 +44,7 @@ $(document).ready(function () {
                         let remove = "<button class='dt-remove-btn btn-danger btn' data-id="+data.id+"><b>Remove</b></button>";
                         return  edit + " " + remove
                     }else{
-                        return ''
+                        return type
                     }
                 }
             }
