@@ -7,19 +7,37 @@
     <title th:text="${title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
     <link rel="stylesheet" href="/css/sticky-footer.css">
+    <script>
+        $(function () {
+            $("#parent").select2({
+                placeholder: "Select a State",
+                allowClear: true
+            });
+        });
+    </script>
 </head>
 
 <th:block layout:fragment="content">
-    <form role="form" method="post" class="form" action="/loginUserGroup/edit" enctype="multipart/form-data">
+    <form role="form" method="post" class="form" action="/loginUserGroup/edit" enctype="multipart/form-data" th:object="${loginUserGroup}">
         <div class="form-group">
             <label for="id">ID</label>
-            <input type="text" th:readonly="true" th:value="${loginUserGroup?.id}" id="id" name="id" class="form-control" placeholder="ID"/>
+            <input type="text" th:readonly="true" th:value="*{id}" id="id" name="id" class="form-control" placeholder="ID"/>
         </div>
         <div class="form-group">
             <label for="groupName">GroupName</label>
-            <input type="text" th:readonly="false" th:value="${loginUserGroup?.groupName}" id="groupName" name="groupName"
+            <input type="text" th:readonly="false" th:field="*{groupName}" id="groupName" name="groupName"
                    class="form-control"
                    placeholder="GroupName"/>
+        </div>
+        <div class="form-group">
+            <label for="parent">Parent group</label>
+            <select id="parent" name="parent" class="form-control" data-placeholder = "Select parent" th:field="*{parent.id}">
+                <option value=""></option>
+                <option th:each="loginUserGroup: ${loginUserGroupsMap}"
+                        th:value="${loginUserGroup.key.id}"
+                        th:text="${loginUserGroup.key.groupName}"
+                        th:selected="${loginUserGroup.value}"></option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
     </form>

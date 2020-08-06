@@ -20,20 +20,6 @@ $(document).ready(function () {
                 data: 'groupName',
                 width: "15%"
             }, {
-                data: 'parent',
-                width: "20%",
-                render: function ( data, type, _ ) {
-                    if(type==='display') {
-                        if(data!=null){
-                            return "<a href='/loginUserGroup/"+data.id+"'>"+data.groupName+"</a>"
-                        }else{
-                            return 'no parent set'
-                        }
-                    }else{
-                        return type
-                    }
-                }
-            }, {
                 data: null,
                 width: "20%",
                 searchable: false,

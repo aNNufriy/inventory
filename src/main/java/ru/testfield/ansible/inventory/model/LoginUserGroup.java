@@ -1,6 +1,10 @@
 package ru.testfield.ansible.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +17,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LoginUserGroup {
 
     @Id
@@ -29,6 +34,7 @@ public class LoginUserGroup {
     private Set<LoginUserGroup> children;
 
     @ManyToOne
+    @JsonIdentityReference(alwaysAsId=true)
     private LoginUserGroup parent;
 
     @PreRemove

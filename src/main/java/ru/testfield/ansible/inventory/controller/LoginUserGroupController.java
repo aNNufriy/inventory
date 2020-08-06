@@ -9,10 +9,8 @@ import ru.testfield.ansible.inventory.model.LoginUserGroup;
 import ru.testfield.ansible.inventory.model.Notification;
 import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
 
-import java.util.Collections;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.net.http.HttpResponse;
+import java.util.*;
 
 @Controller
 @RequestMapping("loginUserGroup")
@@ -47,11 +45,20 @@ public class LoginUserGroupController {
     @RequestMapping(value = "{id}/edit", method= RequestMethod.GET)
     public String itemEdit(@PathVariable("id") UUID id, Model model, RedirectAttributes attr){
         model.addAttribute("title","Edit loginUserGroup");
+
         Optional<LoginUserGroup> optionalItem = loginUserGroupRepository.findById(id);
         if(optionalItem.isEmpty()){
             throw new NoSuchElementException("No such loginUserGroup: "+id);
         }else {
+            LoginUserGroup loginUserGroup = optionalItem.get();
+            var loginUserGroups = loginUserGroupRepository.findAll();
+            var loginUserGroupsMap = new HashMap<LoginUserGroup,Boolean>();
+            for (LoginUserGroup loginUserGroupIterator : loginUserGroups) {
+                Boolean selected = loginUserGroupIterator.equals(loginUserGroup.getParent());
+                loginUserGroupsMap.put(loginUserGroupIterator,selected);
+            }
             model.addAttribute("loginUserGroup", optionalItem.get());
+            model.addAttribute("loginUserGroupsMap", loginUserGroupsMap);
         }
         return "pages/loginUserGroup/edit";
     }
@@ -63,6 +70,9 @@ public class LoginUserGroupController {
 
     @RequestMapping(value = "/edit", method= RequestMethod.POST)
     public String userEditPost(@ModelAttribute LoginUserGroup item, RedirectAttributes attr){
+        if(item.getParent().getId()==null){
+            item.setParent(null);
+        }
         loginUserGroupRepository.save(item);
         attr.addFlashAttribute("notifications",
                 Collections.singletonList(new Notification(Notification.NotificationType.SUCCESS, "Changes applied"))
