@@ -1,5 +1,6 @@
 package ru.testfield.ansible.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +10,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginUser {
@@ -21,6 +21,7 @@ public class LoginUser {
 
     private String passwordBcryptHash;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<LoginUserGroup> groups;
 

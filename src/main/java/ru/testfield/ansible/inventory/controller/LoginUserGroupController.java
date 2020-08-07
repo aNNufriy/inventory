@@ -54,8 +54,10 @@ public class LoginUserGroupController {
             var loginUserGroups = loginUserGroupRepository.findAll();
             var loginUserGroupsMap = new HashMap<LoginUserGroup,Boolean>();
             for (LoginUserGroup loginUserGroupIterator : loginUserGroups) {
-                Boolean selected = loginUserGroupIterator.equals(loginUserGroup.getParent());
-                loginUserGroupsMap.put(loginUserGroupIterator,selected);
+                if(!loginUserGroup.equals(loginUserGroupIterator)) {
+                    Boolean selected = loginUserGroupIterator.equals(loginUserGroup.getParent());
+                    loginUserGroupsMap.put(loginUserGroupIterator, selected);
+                }
             }
             model.addAttribute("loginUserGroup", optionalItem.get());
             model.addAttribute("loginUserGroupsMap", loginUserGroupsMap);

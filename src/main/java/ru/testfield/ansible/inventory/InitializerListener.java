@@ -35,6 +35,17 @@ public class InitializerListener {
         LoginUserGroup loginUserGroup2 = loginUserGroupRepository.save(
                 new LoginUserGroup(UUID.randomUUID(),"group2", null, null, loginUserGroup1)
         );
+        LoginUserGroup loginUserGroup3 = loginUserGroupRepository.save(
+                new LoginUserGroup(UUID.randomUUID(),"group3", null, null, loginUserGroup1)
+        );
+        LoginUserGroup loginUserGroup4 = loginUserGroupRepository.save(
+                new LoginUserGroup(UUID.randomUUID(),"group4", null, null, loginUserGroup1)
+        );
+
+        loginUserGroupRepository.save(loginUserGroup1);
+        loginUserGroupRepository.save(loginUserGroup2);
+        loginUserGroupRepository.save(loginUserGroup3);
+        loginUserGroupRepository.save(loginUserGroup4);
 
         var groups = Set.of(loginUserGroup1,loginUserGroup2);
 

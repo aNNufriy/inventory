@@ -7,10 +7,19 @@
     <title th:text="${title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
     <link rel="stylesheet" href="/css/sticky-footer.css">
+    <link rel="stylesheet" href="/css/sticky-footer.css">
+    <script>
+        $(function () {
+            $("#groups").select2({
+                placeholder: "Select a State",
+                allowClear: true
+            });
+        });
+    </script>
 </head>
 
 <th:block layout:fragment="content">
-    <form role="form" method="post" class="form" action="/loginUser/edit" enctype="multipart/form-data">
+    <form role="form" method="post" class="form" action="/loginUser/edit" enctype="multipart/form-data" th:object="${loginUser}">
         <div class="form-group">
             <label for="id">ID</label>
             <input type="text" th:readonly="true" th:value="${loginUser?.id}" id="id" name="id" class="form-control"
@@ -21,6 +30,20 @@
             <input type="text" th:readonly="false" th:value="${loginUser?.login}" id="login" name="login"
                    class="form-control"
                    placeholder="Login"/>
+        </div>
+        <div class="form-group">
+            <label for="groups">Groups</label>
+            <select id="groups" th:field="*{groups}" class="form-control" data-placeholder = "Select groups" multiple="multiple">
+                <option value=""></option>
+                <option th:each="loginUserGroup : ${loginUserGroups}"
+                        th:value="${{loginUserGroup}}"
+                        th:text="${loginUserGroup.groupName}">
+                </option>
+                <!--                <option th:each="loginUserGroup: ${loginUserGroupsMap}"-->
+<!--                        th:value="${loginUserGroup.key.id}"-->
+<!--                        th:text="${loginUserGroup.key.groupName}"-->
+<!--                        th:selected="${loginUserGroup.value}"></option>-->
+            </select>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
     </form>
