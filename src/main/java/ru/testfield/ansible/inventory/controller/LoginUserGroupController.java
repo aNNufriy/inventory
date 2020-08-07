@@ -39,6 +39,8 @@ public class LoginUserGroupController {
     @RequestMapping(value = "/add", method= RequestMethod.GET)
     public String itemAdd(Model model){
         model.addAttribute("title","Add loginUserGroup");
+        model.addAttribute("loginUserGroup",new LoginUserGroup());
+        model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
         return "pages/loginUserGroup/edit";
     }
 
@@ -50,17 +52,8 @@ public class LoginUserGroupController {
         if(optionalItem.isEmpty()){
             throw new NoSuchElementException("No such loginUserGroup: "+id);
         }else {
-            LoginUserGroup loginUserGroup = optionalItem.get();
-            var loginUserGroups = loginUserGroupRepository.findAll();
-            var loginUserGroupsMap = new HashMap<LoginUserGroup,Boolean>();
-            for (LoginUserGroup loginUserGroupIterator : loginUserGroups) {
-                if(!loginUserGroup.equals(loginUserGroupIterator)) {
-                    Boolean selected = loginUserGroupIterator.equals(loginUserGroup.getParent());
-                    loginUserGroupsMap.put(loginUserGroupIterator, selected);
-                }
-            }
             model.addAttribute("loginUserGroup", optionalItem.get());
-            model.addAttribute("loginUserGroupsMap", loginUserGroupsMap);
+            model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
         }
         return "pages/loginUserGroup/edit";
     }
@@ -72,7 +65,7 @@ public class LoginUserGroupController {
 
     @RequestMapping(value = "/edit", method= RequestMethod.POST)
     public String userEditPost(@ModelAttribute LoginUserGroup item, RedirectAttributes attr){
-        if(item.getParent().getId()==null){
+        if(item.getParent()!=null && item.getParent().getId()==null){
             item.setParent(null);
         }
         loginUserGroupRepository.save(item);

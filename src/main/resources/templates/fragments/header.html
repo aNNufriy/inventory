@@ -11,25 +11,25 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/loginUser/">LoginUsers<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/loginUserGroup/">LoginUserGroups<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="loginUser" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    LoginUsers
+                </a>
+                <div class="dropdown-menu" aria-labelledby="loginUser">
+                    <a class="dropdown-item" href="/loginUser/">List</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/loginUser/add">Create</a>
+                </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+                <a class="nav-link dropdown-toggle"  id="loginUserGroup" role="button" data-toggle="dropdown">
+                    LoginUserGroups
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-menu" aria-labelledby="loginUserGroup">
+                    <a class="dropdown-item" href="/loginUserGroup/">List</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="/loginUserGroup/add">Create</a>
                 </div>
             </li>
             <li class="nav-item">
