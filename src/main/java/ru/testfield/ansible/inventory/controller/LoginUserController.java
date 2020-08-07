@@ -80,9 +80,13 @@ public class LoginUserController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String userEditPost(@ModelAttribute LoginUser loginUser, RedirectAttributes attr) {
-        String password = loginUser.getPasswordBcryptHash();
-        if (password != null && !password.isEmpty()) {
+        if(loginUser.getPasswordBcryptHash()!=null && !loginUser.getPasswordBcryptHash().isEmpty()) {
             loginUser.setPasswordBcryptHash(passwordEncoder.encode(loginUser.getPasswordBcryptHash()));
+        }else{
+            if(loginUser.getId()!=null) {
+                Optional<LoginUser> optionalStoredLoginUser = loginUserRepository.findById(loginUser.getId());
+                optionalStoredLoginUser.ifPresent(user -> loginUser.setPasswordBcryptHash(user.getPasswordBcryptHash()));
+            }
         }
 
         loginUserRepository.save(loginUser);
