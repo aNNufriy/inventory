@@ -17,9 +17,16 @@ public class InventoryApplication {
 
 	@Configuration
 	static class MvcConfig implements WebMvcConfigurer {
+
+		final LoginUserGroupFormatter loginUserGroupFormatter;
+
+		public MvcConfig(LoginUserGroupFormatter loginUserGroupFormatter) {
+			this.loginUserGroupFormatter = loginUserGroupFormatter;
+		}
+
 		@Override
 		public void addFormatters(FormatterRegistry registry) {
-			registry.addFormatter(new LoginUserGroupFormatter());
+			registry.addFormatter(loginUserGroupFormatter);
 		}
 	}
 }

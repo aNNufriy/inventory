@@ -7,19 +7,26 @@ import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
 
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
 public class LoginUserGroupFormatter implements Formatter<LoginUserGroup> {
 
-    @Autowired
-    private LoginUserGroupRepository loginUserGroupRepository;
+    private final LoginUserGroupRepository loginUserGroupRepository;
+
+    public LoginUserGroupFormatter(LoginUserGroupRepository loginUserGroupRepository) {
+        this.loginUserGroupRepository = loginUserGroupRepository;
+    }
 
     @Override
     public LoginUserGroup parse(String id, Locale locale) throws ParseException {
-        LoginUserGroup loginUserGroup = new LoginUserGroup();
-        loginUserGroup.setId(UUID.fromString(id));
-        return loginUserGroup;
+        Optional<LoginUserGroup> optionalLoginUserGroup = loginUserGroupRepository.findById(UUID.fromString(id));
+        if(optionalLoginUserGroup.isPresent()) {
+            return optionalLoginUserGroup.get();
+        }else{
+            throw new ParseException(id,0);
+        }
     }
 
     @Override

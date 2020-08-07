@@ -36,13 +36,10 @@
             <select id="groups" th:field="*{groups}" class="form-control" data-placeholder = "Select groups" multiple="multiple">
                 <option value=""></option>
                 <option th:each="loginUserGroup : ${loginUserGroups}"
-                        th:value="${{loginUserGroup}}"
+                        th:field="*{groups}"
+                        th:value="${loginUserGroup.id}"
                         th:text="${loginUserGroup.groupName}">
                 </option>
-                <!--                <option th:each="loginUserGroup: ${loginUserGroupsMap}"-->
-<!--                        th:value="${loginUserGroup.key.id}"-->
-<!--                        th:text="${loginUserGroup.key.groupName}"-->
-<!--                        th:selected="${loginUserGroup.value}"></option>-->
             </select>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
