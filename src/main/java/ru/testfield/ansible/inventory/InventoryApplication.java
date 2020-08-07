@@ -15,18 +15,4 @@ public class InventoryApplication {
 		SpringApplication.run(InventoryApplication.class, args);
 	}
 
-	@Configuration
-	static class MvcConfig implements WebMvcConfigurer {
-
-		final LoginUserGroupFormatter loginUserGroupFormatter;
-
-		public MvcConfig(LoginUserGroupFormatter loginUserGroupFormatter) {
-			this.loginUserGroupFormatter = loginUserGroupFormatter;
-		}
-
-		@Override
-		public void addFormatters(FormatterRegistry registry) {
-			registry.addFormatter(loginUserGroupFormatter);
-		}
-	}
 }

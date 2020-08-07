@@ -15,6 +15,7 @@ import java.util.UUID;
 public class LoginUser {
 
     @Id
+    @GeneratedValue
     private UUID id;
 
     private String login;

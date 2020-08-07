@@ -8,7 +8,6 @@ import ru.testfield.ansible.inventory.model.LoginUserGroup;
 import ru.testfield.ansible.inventory.repository.*;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/dataTables")

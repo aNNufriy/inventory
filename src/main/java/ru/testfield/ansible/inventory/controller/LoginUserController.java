@@ -46,7 +46,9 @@ public class LoginUserController {
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String userAdd(Model model) {
-        model.addAttribute("title", "Add loginUser");
+        model.addAttribute("title","Add loginUser");
+        model.addAttribute("loginUser", new LoginUser());
+        model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
         return "pages/loginUser/edit";
     }
 
@@ -57,17 +59,7 @@ public class LoginUserController {
         if (optionalLoginUser.isEmpty()) {
             throw new NoSuchElementException("No such loginUser: " + id);
         } else {
-            LoginUser loginUser = optionalLoginUser.get();
-            model.addAttribute("loginUser", loginUser);
-            var loginUserGroups = loginUserGroupRepository.findAll();
-            var loginUserGroupsMap = new HashMap<LoginUserGroup, Boolean>();
-            for (LoginUserGroup loginUserGroupIterator: loginUserGroups) {
-                Set<LoginUserGroup> groups = loginUser.getGroups();
-                Boolean selected = groups!=null && groups.contains(loginUserGroupIterator);
-                loginUserGroupsMap.put(loginUserGroupIterator, selected);
-            }
-            model.addAttribute("loginUser", loginUser);
-            model.addAttribute("loginUserGroupsMap", loginUserGroupsMap);
+            model.addAttribute("loginUser", optionalLoginUser.get());
             model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
         }
         return "pages/loginUser/edit";

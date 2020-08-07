@@ -34,7 +34,6 @@
         <div class="form-group">
             <label for="groups">Groups</label>
             <select id="groups" th:field="*{groups}" class="form-control" data-placeholder = "Select groups" multiple="multiple">
-                <option value=""></option>
                 <option th:each="loginUserGroup : ${loginUserGroups}"
                         th:field="*{groups}"
                         th:value="${loginUserGroup.id}"
