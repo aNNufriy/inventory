@@ -1,6 +1,5 @@
 package ru.testfield.ansible.inventory.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
