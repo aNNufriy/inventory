@@ -8,3 +8,6 @@
 /*    background: red !important;*/
 /*    font-weight: bold;*/
 /*}*/
+.inline-error {
+    color: darkred;
+}

@@ -9,7 +9,6 @@ import ru.testfield.ansible.inventory.model.LoginUserGroup;
 import ru.testfield.ansible.inventory.model.Notification;
 import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
 
-import java.net.http.HttpResponse;
 import java.util.*;
 
 @Controller
@@ -37,22 +36,22 @@ public class LoginUserGroupController {
     }
 
     @RequestMapping(value = "/add", method= RequestMethod.GET)
-    public String itemAdd(Model model){
+    public String loginUserAdd(Model model){
         model.addAttribute("title","Add loginUserGroup");
-        model.addAttribute("loginUserGroup",new LoginUserGroup());
+        model.addAttribute("loginUserGroup", new LoginUserGroup());
         model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
         return "pages/loginUserGroup/edit";
     }
 
     @RequestMapping(value = "{id}/edit", method= RequestMethod.GET)
-    public String itemEdit(@PathVariable("id") UUID id, Model model, RedirectAttributes attr){
+    public String loginUserEdit(@PathVariable("id") UUID id, Model model){
         model.addAttribute("title","Edit loginUserGroup");
 
-        Optional<LoginUserGroup> optionalItem = loginUserGroupRepository.findById(id);
-        if(optionalItem.isEmpty()){
-            throw new NoSuchElementException("No such loginUserGroup: "+id);
-        }else {
-            model.addAttribute("loginUserGroup", optionalItem.get());
+        Optional<LoginUserGroup> optionalLoginUser = loginUserGroupRepository.findById(id);
+        if(optionalLoginUser.isEmpty()){
+            throw new NoSuchElementException("No such loginUserGroup: " + id);
+        } else {
+            model.addAttribute("loginUserGroup", optionalLoginUser.get());
             model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
         }
         return "pages/loginUserGroup/edit";
@@ -63,16 +62,17 @@ public class LoginUserGroupController {
         return "redirect:";
     }
 
+
     @RequestMapping(value = "/edit", method= RequestMethod.POST)
-    public String userEditPost(@ModelAttribute LoginUserGroup item, RedirectAttributes attr){
-        if(item.getParent()!=null && item.getParent().getId()==null){
-            item.setParent(null);
+    public String userEditPost(@ModelAttribute LoginUserGroup loginUser, RedirectAttributes attr){
+        if(loginUser.getParent()!=null && loginUser.getParent().getId()==null){
+            loginUser.setParent(null);
         }
-        loginUserGroupRepository.save(item);
+        loginUserGroupRepository.save(loginUser);
         attr.addFlashAttribute("notifications",
                 Collections.singletonList(new Notification(Notification.NotificationType.SUCCESS, "Changes applied"))
         );
-        return "redirect:"+item.getId()+"/edit";
+        return "redirect:"+loginUser.getId()+"/edit";
     }
 
 }

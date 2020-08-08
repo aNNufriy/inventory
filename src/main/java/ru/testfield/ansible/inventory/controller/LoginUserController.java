@@ -4,15 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.testfield.ansible.inventory.model.LoginUser;
-import ru.testfield.ansible.inventory.model.LoginUserGroup;
 import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
 import ru.testfield.ansible.inventory.repository.LoginUserRepository;
 import ru.testfield.ansible.inventory.model.Notification;
 
+import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("loginUser")
@@ -53,7 +55,7 @@ public class LoginUserController {
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
-    public String userEdit(@PathVariable("id") UUID id, Model model, RedirectAttributes attr) {
+    public String userEdit(@PathVariable("id") UUID id, Model model) {
         model.addAttribute("title", "Edit loginUser");
         Optional<LoginUser> optionalLoginUser = loginUserRepository.findById(id);
         if (optionalLoginUser.isEmpty()) {
@@ -71,10 +73,20 @@ public class LoginUserController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String userEditPost(@ModelAttribute LoginUser loginUser, RedirectAttributes attr) {
+    public String userEditPost(@Valid LoginUser loginUser, BindingResult bindingResult, RedirectAttributes attr, Model model) {
+        if(bindingResult.hasErrors()){
+            List<Notification> notifications = bindingResult.getFieldErrors()
+                    .stream()
+                    .map(fieldError -> "'"+fieldError.getField()+": "+fieldError.getDefaultMessage())
+                    .map(message -> new Notification(Notification.NotificationType.WARNING, message))
+                    .collect(Collectors.toList());
+            attr.addFlashAttribute("notifications", notifications);
+            model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
+            return "pages/loginUser/edit";
+        }
         if(loginUser.getPasswordBcryptHash()!=null && !loginUser.getPasswordBcryptHash().isEmpty()) {
             loginUser.setPasswordBcryptHash(passwordEncoder.encode(loginUser.getPasswordBcryptHash()));
-        }else{
+        } else {
             if(loginUser.getId()!=null) {
                 Optional<LoginUser> optionalStoredLoginUser = loginUserRepository.findById(loginUser.getId());
                 optionalStoredLoginUser.ifPresent(user -> loginUser.setPasswordBcryptHash(user.getPasswordBcryptHash()));

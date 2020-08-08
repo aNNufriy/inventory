@@ -27,6 +27,7 @@
         </div>
         <div class="form-group">
             <label for="login">Login</label>
+            <p class="inline-error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login error</p>
             <input type="text" th:readonly="false" th:value="${loginUser?.login}" id="login" name="login"
                    class="form-control"
                    placeholder="Login"/>
