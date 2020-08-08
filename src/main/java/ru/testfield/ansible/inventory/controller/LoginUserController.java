@@ -10,15 +10,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.testfield.ansible.inventory.model.LoginUser;
 import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
 import ru.testfield.ansible.inventory.repository.LoginUserRepository;
-import ru.testfield.ansible.inventory.model.Notification;
 
 import javax.validation.Valid;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("loginUser")
-public class LoginUserController {
+public class LoginUserController extends AbstractWebController {
 
     private final LoginUserRepository loginUserRepository;
 
@@ -33,13 +31,6 @@ public class LoginUserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @ModelAttribute
-    private void processFlashAttributes(RedirectAttributes attr, Model model) {
-        if (attr.getFlashAttributes().get("notifications") != null) {
-            model.addAttribute("notifications", attr.getFlashAttributes().get("notifications"));
-        }
-    }
-
     @RequestMapping(value = {"/", ""})
     public String index(Model model) {
         model.addAttribute("title", "LoginUsers list");
@@ -47,7 +38,7 @@ public class LoginUserController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String userAdd(Model model) {
+    public String loginUserAdd(Model model) {
         model.addAttribute("title","Add loginUser");
         model.addAttribute("loginUser", new LoginUser());
         model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
@@ -55,7 +46,7 @@ public class LoginUserController {
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
-    public String userEdit(@PathVariable("id") UUID id, Model model) {
+    public String loginUserEdit(@PathVariable("id") UUID id, Model model) {
         model.addAttribute("title", "Edit loginUser");
         Optional<LoginUser> optionalLoginUser = loginUserRepository.findById(id);
         if (optionalLoginUser.isEmpty()) {
@@ -68,22 +59,25 @@ public class LoginUserController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String userEdit() {
+    public String loginUserEdit() {
         return "redirect:";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String userEditPost(@Valid LoginUser loginUser, BindingResult bindingResult, RedirectAttributes attr, Model model) {
+    public String loginUserEditPost(@Valid LoginUser loginUser, BindingResult bindingResult, RedirectAttributes attr, Model model) {
         if(bindingResult.hasErrors()){
-            List<Notification> notifications = bindingResult.getFieldErrors()
-                    .stream()
-                    .map(fieldError -> "'"+fieldError.getField()+": "+fieldError.getDefaultMessage())
-                    .map(message -> new Notification(Notification.NotificationType.WARNING, message))
-                    .collect(Collectors.toList());
-            attr.addFlashAttribute("notifications", notifications);
+            processBindingResults(bindingResult, attr, model);
             model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
             return "pages/loginUser/edit";
+        } else {
+            processLoginUserPassword(loginUser);
+            loginUserRepository.save(loginUser);
+            flashSuccessNotification(attr);
+            return "redirect:" + loginUser.getId() + "/edit";
         }
+    }
+
+    private void processLoginUserPassword(@Valid LoginUser loginUser) {
         if(loginUser.getPasswordBcryptHash()!=null && !loginUser.getPasswordBcryptHash().isEmpty()) {
             loginUser.setPasswordBcryptHash(passwordEncoder.encode(loginUser.getPasswordBcryptHash()));
         } else {
@@ -92,12 +86,6 @@ public class LoginUserController {
                 optionalStoredLoginUser.ifPresent(user -> loginUser.setPasswordBcryptHash(user.getPasswordBcryptHash()));
             }
         }
-
-        loginUserRepository.save(loginUser);
-        attr.addFlashAttribute("notifications",
-                Collections.singletonList(new Notification(Notification.NotificationType.SUCCESS, "Changes applied"))
-        );
-        return "redirect:" + loginUser.getId() + "/edit";
     }
 
 }

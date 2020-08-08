@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{layout}" lang="en">
 
 <head>
     <title th:text="${title}"></title>
@@ -25,6 +25,7 @@
         </div>
         <div class="form-group">
             <label for="groupName">GroupName</label>
+            <p class="inline-error" th:if="${#fields.hasErrors('groupName')}" th:errors="*{groupName}">GroupName error</p>
             <input type="text" th:readonly="false" th:field="*{groupName}" id="groupName" name="groupName"
                    class="form-control"
                    placeholder="GroupName"/>
@@ -36,7 +37,7 @@
                 <option th:each="loginUserGroup: ${loginUserGroups}"
                         th:field="*{parent}"
                         th:value="${loginUserGroup.id}"
-                        th:text="${loginUserGroup.groupName}"></option>
+                        th:text="${loginUserGroup.groupName}">
                 </option>
             </select>
         </div>
