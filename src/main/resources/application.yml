@@ -1,13 +1,18 @@
 spring:
+  mvc:
+    static-path-pattern: '/resources/**'
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     open-in-view: true
-    show-sql: true
+    show-sql: false
   datasource:
     url: jdbc:postgresql://localhost:5434/inventory
     password: password
     username: postgres
 server:
   port: 8086
+logging:
+  level:
+    root: INFO

@@ -29,6 +29,8 @@ public class InitializerListener {
         loginUserRepository.deleteAll();
         loginUserGroupRepository.deleteAll();
 
+        loginUserRepository.save(new LoginUser(UUID.randomUUID(),"admin","$2y$12$jcL1Fzrrt.NXVIfV2WuKSuLGohR.gCmsVnIos1ri/JUcYk6mifro.",true, null));
+
         LoginUserGroup loginUserGroup1 = loginUserGroupRepository.save(
                 new LoginUserGroup(UUID.randomUUID(),"group1", null,null,null)
         );
@@ -50,16 +52,10 @@ public class InitializerListener {
         var groups = Set.of(loginUserGroup1,loginUserGroup2);
 
         for(int i=0; i<20; i++) {
-            LoginUser loginUser = new LoginUser(UUID.randomUUID(), "user"+i, "password", groups);
+            LoginUser loginUser = new LoginUser(UUID.randomUUID(), "user"+i, "password", true, groups);
             loginUserRepository.save(loginUser);
         }
 
-//        LoginUserGroup previous = null;
-//        for(int i=0; i<20; i++) {
-//            LoginUserGroup loginUsergroup = new LoginUserGroup(UUID.randomUUID(), "group"+i, null);
-//            loginUserGroupRepository.save(loginUsergroup);
-//            previous = loginUsergroup;
-//        }
     }
 
 }

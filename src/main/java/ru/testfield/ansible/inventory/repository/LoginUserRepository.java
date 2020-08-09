@@ -6,4 +6,5 @@ import ru.testfield.ansible.inventory.model.LoginUser;
 import java.util.UUID;
 
 public interface LoginUserRepository extends DataTablesRepository<LoginUser, UUID> {
+    LoginUser findByLogin(String username);
 }

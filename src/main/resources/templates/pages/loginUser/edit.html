@@ -6,8 +6,8 @@
 <head>
     <title th:text="${title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
-    <link rel="stylesheet" href="/css/sticky-footer.css">
-    <link rel="stylesheet" href="/css/sticky-footer.css">
+    <link rel="stylesheet" href="/resources/css/sticky-footer.css">
+    <link rel="stylesheet" href="/resources/css/sticky-footer.css">
     <script>
         $(function () {
             $("#groups").select2({
@@ -28,9 +28,11 @@
         <div class="form-group">
             <label for="login">Login</label>
             <p class="inline-error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login error</p>
-            <input type="text" th:readonly="false" th:value="${loginUser?.login}" id="login" name="login"
-                   class="form-control"
-                   placeholder="Login"/>
+            <input type="text" id="login" th:field="*{login}" class="form-control" placeholder="Login"/>
+        </div>
+        <div class="form-group">
+            <label for="enabled">Enabled</label>
+            <input type="checkbox" th:field="*{enabled}" id="enabled"/>
         </div>
         <div class="form-group">
             <label for="groups">Groups</label>
@@ -43,10 +45,8 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="login">Password</label>
-            <input type="password" th:readonly="false" th:field="*{passwordBcryptHash}" id="passwordBcryptHash"
-                   class="form-control"
-                   placeholder="Password"/>
+            <label for="passwordBcryptHash">Password</label>
+            <input type="password" th:field="*{passwordBcryptHash}" id="passwordBcryptHash" class="form-control" placeholder="Password"/>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
     </form>

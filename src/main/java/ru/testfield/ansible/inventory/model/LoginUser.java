@@ -27,6 +27,8 @@ public class LoginUser {
 
     private String passwordBcryptHash;
 
+    private boolean enabled;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<LoginUserGroup> groups;
