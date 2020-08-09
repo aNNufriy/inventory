@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class LoginUserGroup {
+public class LoginUserRole {
 
     @Id
     @GeneratedValue
@@ -27,27 +27,27 @@ public class LoginUserGroup {
     @NotBlank
     @Size(min=2, max=30)
     @Column(unique = true)
-    private String groupName;
+    private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<LoginUser> loginUsers;
 
     @JsonIgnore
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private Set<LoginUserGroup> children;
+    private Set<LoginUserRole> children;
 
     @ManyToOne
     @JsonIdentityReference(alwaysAsId=true)
-    private LoginUserGroup parent;
+    private LoginUserRole parent;
 
     @PreRemove
-    private void removeGroupFromUsers() {
+    private void removeRoleFromUsers() {
         for (LoginUser user : loginUsers) {
-            user.getGroups().remove(this);
+            user.getRoles().remove(this);
         }
-        for (LoginUserGroup childGroup : children) {
-            childGroup.parent = null;
+        for (LoginUserRole childRole : children) {
+            childRole.parent = null;
         }
     }
 

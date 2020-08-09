@@ -1,7 +1,7 @@
 package ru.testfield.ansible.inventory.controller.api;
 
 import org.springframework.web.bind.annotation.*;
-import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
+import ru.testfield.ansible.inventory.repository.LoginUserRoleRepository;
 import ru.testfield.ansible.inventory.repository.LoginUserRepository;
 
 import java.util.UUID;
@@ -11,11 +11,11 @@ import java.util.UUID;
 public class ApiController {
 
     private final LoginUserRepository loginUserRepository;
-    private final LoginUserGroupRepository loginUserGroupRepository;
+    private final LoginUserRoleRepository loginUserRoleRepository;
 
-    public ApiController(LoginUserRepository loginUserRepository, LoginUserGroupRepository loginUserGroupRepository) {
+    public ApiController(LoginUserRepository loginUserRepository, LoginUserRoleRepository loginUserRoleRepository) {
         this.loginUserRepository = loginUserRepository;
-        this.loginUserGroupRepository = loginUserGroupRepository;
+        this.loginUserRoleRepository = loginUserRoleRepository;
     }
 
     @RequestMapping(value = "/loginUser/{id}", method = RequestMethod.DELETE)
@@ -23,8 +23,8 @@ public class ApiController {
         loginUserRepository.deleteById(id);
     }
 
-    @RequestMapping(value = "/loginUserGroup/{id}", method = RequestMethod.DELETE)
-    public void deleteLoginUserGroup(@PathVariable UUID id) {
-        loginUserGroupRepository.deleteById(id);
+    @RequestMapping(value = "/loginUserRole/{id}", method = RequestMethod.DELETE)
+    public void deleteLoginUserRole(@PathVariable UUID id) {
+        loginUserRoleRepository.deleteById(id);
     }
 }

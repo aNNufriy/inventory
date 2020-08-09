@@ -31,6 +31,6 @@ public class LoginUser {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<LoginUserGroup> groups;
+    private Set<LoginUserRole> roles;
 
 }

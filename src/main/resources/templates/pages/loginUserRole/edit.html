@@ -18,26 +18,26 @@
 </head>
 
 <th:block layout:fragment="content">
-    <form role="form" method="post" class="form" action="/loginUserGroup/edit" enctype="multipart/form-data" th:object="${loginUserGroup}">
+    <form role="form" method="post" class="form" action="/loginUserRole/edit" enctype="multipart/form-data" th:object="${loginUserRole}">
         <div class="form-group">
             <label for="id">ID</label>
             <input type="text" th:readonly="true" th:field="*{id}" id="id" name="id" class="form-control" placeholder="ID"/>
         </div>
         <div class="form-group">
-            <label for="groupName">GroupName</label>
-            <p class="inline-error" th:if="${#fields.hasErrors('groupName')}" th:errors="*{groupName}">GroupName error</p>
-            <input type="text" th:readonly="false" th:field="*{groupName}" id="groupName" name="groupName"
+            <label for="name">RoleName</label>
+            <p class="inline-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">RoleName error</p>
+            <input type="text" th:readonly="false" th:field="*{name}" id="name" name="name"
                    class="form-control"
-                   placeholder="GroupName"/>
+                   placeholder="RoleName"/>
         </div>
         <div class="form-group">
             <label for="parent">Parent group</label>
             <select id="parent" name="parent" class="form-control" data-placeholder = "Select parent" th:field="*{parent}">
                 <option value=""></option>
-                <option th:each="loginUserGroup: ${loginUserGroups}"
+                <option th:each="loginUserRole: ${loginUserRoles}"
                         th:field="*{parent}"
-                        th:value="${loginUserGroup.id}"
-                        th:text="${loginUserGroup.groupName}">
+                        th:value="${loginUserRole.id}"
+                        th:text="${loginUserRole.name}">
                 </option>
             </select>
         </div>

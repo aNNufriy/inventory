@@ -2,7 +2,7 @@ $(document).ready(function () {
     document.dt = $('table#sample').DataTable({
         'ajax': {
             'contentType': 'application/json',
-            'url': '/api/dataTables/loginUserGroup',
+            'url': '/api/dataTables/loginUserRole',
             'type': 'POST',
             'data': function (d) {
                 return JSON.stringify(d);
@@ -17,7 +17,7 @@ $(document).ready(function () {
                 data: 'id',
                 width: "40%"
             }, {
-                data: 'groupName',
+                data: 'name',
                 width: "15%"
             }, {
                 data: null,
@@ -37,10 +37,10 @@ $(document).ready(function () {
         ],
         "drawCallback": function() {
             $(".dt-edit-btn").click(function(_){
-                location.href = "/loginUserGroup/"+this.attributes['data-id'].value+"/edit";
+                location.href = "/loginUserRole/"+this.attributes['data-id'].value+"/edit";
             });
             $(".dt-remove-btn").click(function(){
-                let url = "/api/loginUserGroup/"+this.attributes['data-id'].value;
+                let url = "/api/loginUserRole/"+this.attributes['data-id'].value;
                 if(confirm("Do you want to remove item?")){
                     $.ajax({
                         url: url,

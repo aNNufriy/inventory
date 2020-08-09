@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.testfield.ansible.inventory.model.LoginUser;
-import ru.testfield.ansible.inventory.model.LoginUserGroup;
+import ru.testfield.ansible.inventory.model.LoginUserRole;
 import ru.testfield.ansible.inventory.repository.LoginUserRepository;
 
 @Service
@@ -74,9 +74,9 @@ public class UserService implements UserDetailsService {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
                 List<SimpleGrantedAuthority> auths = new java.util.ArrayList<>();
-                if(user.getGroups()!=null) {
-                    for (LoginUserGroup role : user.getGroups()) {
-                        auths.add(new SimpleGrantedAuthority("ROLE_" + role.getGroupName()));
+                if(user.getRoles()!=null) {
+                    for (LoginUserRole role : user.getRoles()) {
+                        auths.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
                     }
                 }
                 return auths;

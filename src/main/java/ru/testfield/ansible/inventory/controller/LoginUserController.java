@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.testfield.ansible.inventory.model.LoginUser;
-import ru.testfield.ansible.inventory.repository.LoginUserGroupRepository;
+import ru.testfield.ansible.inventory.repository.LoginUserRoleRepository;
 import ru.testfield.ansible.inventory.repository.LoginUserRepository;
 
 import javax.validation.Valid;
@@ -20,14 +20,14 @@ public class LoginUserController extends AbstractWebController {
 
     private final LoginUserRepository loginUserRepository;
 
-    private final LoginUserGroupRepository loginUserGroupRepository;
+    private final LoginUserRoleRepository loginUserRoleRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public LoginUserController(LoginUserRepository loginUserRepository, LoginUserGroupRepository loginUserGroupRepository, PasswordEncoder passwordEncoder) {
+    public LoginUserController(LoginUserRepository loginUserRepository, LoginUserRoleRepository loginUserRoleRepository, PasswordEncoder passwordEncoder) {
         this.loginUserRepository = loginUserRepository;
-        this.loginUserGroupRepository = loginUserGroupRepository;
+        this.loginUserRoleRepository = loginUserRoleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -41,7 +41,7 @@ public class LoginUserController extends AbstractWebController {
     public String loginUserAdd(Model model) {
         model.addAttribute("title","Add loginUser");
         model.addAttribute("loginUser", new LoginUser());
-        model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
+        model.addAttribute("loginUserRoles", loginUserRoleRepository.findAll());
         return "pages/loginUser/edit";
     }
 
@@ -53,7 +53,7 @@ public class LoginUserController extends AbstractWebController {
             throw new NoSuchElementException("No such loginUser: " + id);
         } else {
             model.addAttribute("loginUser", optionalLoginUser.get());
-            model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
+            model.addAttribute("loginUserRoles", loginUserRoleRepository.findAll());
         }
         return "pages/loginUser/edit";
     }
@@ -67,7 +67,7 @@ public class LoginUserController extends AbstractWebController {
     public String loginUserEditPost(@Valid LoginUser loginUser, BindingResult bindingResult, RedirectAttributes attr, Model model) {
         if(bindingResult.hasErrors()){
             processBindingResults(bindingResult, attr, model);
-            model.addAttribute("loginUserGroups", loginUserGroupRepository.findAll());
+            model.addAttribute("loginUserRoles", loginUserRoleRepository.findAll());
             return "pages/loginUser/edit";
         } else {
             processLoginUserPassword(loginUser);

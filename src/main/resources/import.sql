@@ -12,18 +12,18 @@ insert into ansible_user (uuid, username) values ('3898a7c6-64f0-4b75-8f5d-abd09
 insert into ansible_user (uuid, username) values ('278a7256-ceb2-4eb8-a839-feb3978ca893','mike12');
 insert into ansible_user (uuid, username) values ('dba7de8e-2ba5-4602-8cb6-ae21ae56df91','mike13');
 
-insert into login_user (uuid,login) values ('1d242cd9-fef8-479b-a789-ffef69ee6da5','host1');
-insert into login_user (uuid,login) values ('c0010ac3-6327-4046-b457-bc44c11f8af6','host2');
-insert into login_user (uuid,login) values ('381dfcf4-759b-47b4-9812-8960276d52dd','host3');
-insert into login_user (uuid,login) values ('dceba7f2-5e25-40e8-bec8-e425b9d7c3e0','host4');
-insert into login_user (uuid,login) values ('cfa9425f-b2ec-4a5c-a663-aab679b9b3ee','host5');
+insert into login_user (id,login,enabled) values ('1d242cd9-fef8-479b-a789-ffef69ee6da5','host1',true);
+insert into login_user (id,login,enabled) values ('c0010ac3-6327-4046-b457-bc44c11f8af6','host2',true);
+insert into login_user (id,login,enabled) values ('381dfcf4-759b-47b4-9812-8960276d52dd','host3',true);
+insert into login_user (id,login,enabled) values ('dceba7f2-5e25-40e8-bec8-e425b9d7c3e0','host4',true);
+insert into login_user (id,login,enabled) values ('cfa9425f-b2ec-4a5c-a663-aab679b9b3ee','host5',true);
 
-insert into login_user_group (uuid, group_name) values ('9bbfd8d8-6a0e-44ce-bb43-8dbd723befbf','group1');
-insert into login_user_group (uuid, group_name) values ('a88a641d-7e52-4a21-96b3-3b11f022f50c','group2');
+insert into login_user_role (id, name) values ('9bbfd8d8-6a0e-44ce-bb43-8dbd723befbf','role1');
+insert into login_user_role (id, name) values ('a88a641d-7e52-4a21-96b3-3b11f022f50c','role2');
 
-insert into login_user_groups (login_users_uuid, groups_uuid) values ('1d242cd9-fef8-479b-a789-ffef69ee6da5','9bbfd8d8-6a0e-44ce-bb43-8dbd723befbf');
-insert into login_user_groups (login_users_uuid, groups_uuid) values ('c0010ac3-6327-4046-b457-bc44c11f8af6','9bbfd8d8-6a0e-44ce-bb43-8dbd723befbf');
+insert into login_user_roles (login_users_id, roles_id) values ('1d242cd9-fef8-479b-a789-ffef69ee6da5','9bbfd8d8-6a0e-44ce-bb43-8dbd723befbf');
+insert into login_user_roles (login_users_id, roles_id) values ('c0010ac3-6327-4046-b457-bc44c11f8af6','9bbfd8d8-6a0e-44ce-bb43-8dbd723befbf');
 
-insert into login_user_groups (login_users_uuid, groups_uuid) values ('381dfcf4-759b-47b4-9812-8960276d52dd','a88a641d-7e52-4a21-96b3-3b11f022f50c');
-insert into login_user_groups (login_users_uuid, groups_uuid) values ('dceba7f2-5e25-40e8-bec8-e425b9d7c3e0','a88a641d-7e52-4a21-96b3-3b11f022f50c');
-insert into login_user_groups (login_users_uuid, groups_uuid) values ('cfa9425f-b2ec-4a5c-a663-aab679b9b3ee','a88a641d-7e52-4a21-96b3-3b11f022f50c');
+insert into login_user_roles (login_users_id, roles_id) values ('381dfcf4-759b-47b4-9812-8960276d52dd','a88a641d-7e52-4a21-96b3-3b11f022f50c');
+insert into login_user_roles (login_users_id, roles_id) values ('dceba7f2-5e25-40e8-bec8-e425b9d7c3e0','a88a641d-7e52-4a21-96b3-3b11f022f50c');
+insert into login_user_roles (login_users_id, roles_id) values ('cfa9425f-b2ec-4a5c-a663-aab679b9b3ee','a88a641d-7e52-4a21-96b3-3b11f022f50c');

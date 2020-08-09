@@ -4,7 +4,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.web.bind.annotation.*;
 import ru.testfield.ansible.inventory.model.LoginUser;
-import ru.testfield.ansible.inventory.model.LoginUserGroup;
+import ru.testfield.ansible.inventory.model.LoginUserRole;
 import ru.testfield.ansible.inventory.repository.*;
 
 import javax.validation.Valid;
@@ -14,12 +14,12 @@ import javax.validation.Valid;
 public class DataTablesApiController {
 
     private final LoginUserRepository loginUserRepository;
-    private final LoginUserGroupRepository loginUserGroupRepository;
+    private final LoginUserRoleRepository loginUserRoleRepository;
 
 
-    public DataTablesApiController(LoginUserRepository loginUserRepository, LoginUserGroupRepository loginUserGroupRepository) {
+    public DataTablesApiController(LoginUserRepository loginUserRepository, LoginUserRoleRepository loginUserRoleRepository) {
         this.loginUserRepository = loginUserRepository;
-        this.loginUserGroupRepository = loginUserGroupRepository;
+        this.loginUserRoleRepository = loginUserRoleRepository;
     }
 
     @RequestMapping(value = "/loginUser", method = RequestMethod.POST)
@@ -27,9 +27,9 @@ public class DataTablesApiController {
         return loginUserRepository.findAll(input);
     }
 
-    @RequestMapping(value = "/loginUserGroup", method = RequestMethod.POST)
-    public DataTablesOutput<LoginUserGroup> getLoginUserGroups(@Valid @RequestBody DataTablesInput input) {
-        return loginUserGroupRepository.findAll(input);
+    @RequestMapping(value = "/loginUserRole", method = RequestMethod.POST)
+    public DataTablesOutput<LoginUserRole> getLoginUserRoles(@Valid @RequestBody DataTablesInput input) {
+        return loginUserRoleRepository.findAll(input);
     }
 
 }
