@@ -74,8 +74,8 @@ public class UserService implements UserDetailsService {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
                 List<SimpleGrantedAuthority> auths = new java.util.ArrayList<>();
-                if(user.getRoles()!=null) {
-                    for (LoginUserRole role : user.getRoles()) {
+                if(user.getLoginUserRoles()!=null) {
+                    for (LoginUserRole role : user.getLoginUserRoles()) {
                         auths.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
                     }
                 }

@@ -7,14 +7,6 @@
     <title th:text="${title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
     <link rel="stylesheet" href="/resources/css/sticky-footer.css">
-    <script>
-        $(function () {
-            $("#parent").select2({
-                placeholder: "Select a State",
-                allowClear: true
-            });
-        });
-    </script>
 </head>
 
 <th:block layout:fragment="content">
@@ -29,17 +21,6 @@
             <input type="text" th:readonly="false" th:field="*{name}" id="name" name="name"
                    class="form-control"
                    placeholder="RoleName"/>
-        </div>
-        <div class="form-group">
-            <label for="parent">Parent group</label>
-            <select id="parent" name="parent" class="form-control" data-placeholder = "Select parent" th:field="*{parent}">
-                <option value=""></option>
-                <option th:each="loginUserRole: ${loginUserRoles}"
-                        th:field="*{parent}"
-                        th:value="${loginUserRole.id}"
-                        th:text="${loginUserRole.name}">
-                </option>
-            </select>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
     </form>

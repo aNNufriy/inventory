@@ -1,10 +1,12 @@
 spring:
+  liquibase:
+    enabled: true
   mvc:
     static-path-pattern: '/resources/**'
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     open-in-view: true
     show-sql: false
   datasource:

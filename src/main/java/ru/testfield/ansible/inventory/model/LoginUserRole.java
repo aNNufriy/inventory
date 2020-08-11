@@ -30,24 +30,13 @@ public class LoginUserRole {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "loginUserRoles", fetch = FetchType.LAZY)
     private Set<LoginUser> loginUsers;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private Set<LoginUserRole> children;
-
-    @ManyToOne
-    @JsonIdentityReference(alwaysAsId=true)
-    private LoginUserRole parent;
 
     @PreRemove
     private void removeRoleFromUsers() {
         for (LoginUser user : loginUsers) {
-            user.getRoles().remove(this);
-        }
-        for (LoginUserRole childRole : children) {
-            childRole.parent = null;
+            user.getLoginUserRoles().remove(this);
         }
     }
 

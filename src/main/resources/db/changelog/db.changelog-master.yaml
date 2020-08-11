@@ -4,65 +4,80 @@ databaseChangeLog:
       author: liquibase
       changes:
         - createTable:
-            tableName: users
+            tableName: login_user
             columns:
               - column:
                   name: id
-                  type: BIGINT
-                  autoIncrement: true
+                  type: UUID
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: username
-                  type: varchar(50)
+                  name: login
+                  type: varchar(30)
                   constraints:
                     unique: true
                     nullable: false
               - column:
-                  name: password
-                  type: varchar(512)
+                  name: password_bcrypt_hash
+                  type: varchar(256)
+              - column:
+                  name: enabled
+                  type: boolean
+        - createTable:
+            tableName: login_user_role
+            columns:
+              - column:
+                  name: id
+                  type: UUID
                   constraints:
+                    primaryKey: true
                     nullable: false
               - column:
-                  name: first_name
-                  type: varchar(50)
+                  name: name
+                  type: varchar(30)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - createTable:
+            tableName: login_user_roles
+            columns:
               - column:
-                  name: last_name
-                  type: varchar(50)
+                  name: login_users_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
               - column:
-                  name: email
-                  type: varchar(50)
+                  name: login_user_roles_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
   - changeSet:
       id: 2
-      author: your_liquibase_username
+      author: liquibase
       comment: "Create admin user"
       changes:
         - insert:
-            tableName: users
+            tableName: login_user
             columns:
               - column:
-                  name: username
+                  name: id
+                  value: "da17561f-fd60-41a4-b907-093b02c7b522"
+              - column:
+                  name: login
                   value: "admin"
               - column:
-                  name: password
-                  value: "admin"
+                  name: password_bcrypt_hash
+                  value: "$2y$12$wHu5bHeRYBAGxThu0iWJ/u9v1DfEH.q9QoGC/X9ElSABg1jYMvrl6"
               - column:
-                  name: email
-                  value: "admin@server.com"
-        - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: username
-                  value: "guest"
-              - column:
-                  name: password
-                  value: "guest"
-              - column:
-                  name: email
-                  value: "guest@server.com"
+                  name: enabled
+                  value: true
       rollback:
         - delete:
-            tableName: users
-            where: username in ('admin', 'guest')
+            tableName: login_user
+        - delete:
+            tableNfame: login_user_role
+        - delete:
+            tableNfame: login_user_roles
