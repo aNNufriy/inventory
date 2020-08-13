@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: liquibase
+      comment: "Create admin user"
+      changes:
+        - insert:
+            tableName: login_user
+            columns:
+              - column:
+                  name: id
+                  value: "ad4d892d-8b87-4ca3-a5ec-1c0bee62e382"
+              - column:
+                  name: login
+                  value: "user"
+              - column:
+                  name: password_bcrypt_hash
+                  value: "$2y$12$wHu5bHeRYBAGxThu0iWJ/u9v1DfEH.q9QoGC/X9ElSABg1jYMvrl6"
+              - column:
+                  name: enabled
+                  value: true

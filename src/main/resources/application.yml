@@ -1,6 +1,6 @@
 spring:
   liquibase:
-    enabled: true
+    enabled: false
   mvc:
     static-path-pattern: '/resources/**'
   jpa:
