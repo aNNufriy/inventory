@@ -40,7 +40,7 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - createTable:
-            tableName: login_user_roles
+            tableName: login_user_login_user_roles
             columns:
               - column:
                   name: login_users_id

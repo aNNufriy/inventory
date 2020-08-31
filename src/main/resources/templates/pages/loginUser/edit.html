@@ -36,9 +36,9 @@
         </div>
         <div class="form-group">
             <label for="roles">Roles</label>
-            <select id="roles" th:field="*{roles}" class="form-control" data-placeholder = "Select roles" multiple="multiple">
+            <select id="roles" th:field="*{loginUserRoles}" class="form-control" data-placeholder = "Select roles" multiple="multiple">
                 <option th:each="loginUserRole : ${loginUserRoles}"
-                        th:field="*{roles}"
+                        th:field="*{loginUserRoles}"
                         th:value="${loginUserRole.id}"
                         th:text="${loginUserRole.name}">
                 </option>

@@ -12,15 +12,29 @@ $(document).ready(function () {
         "paging": true,
         'serverSide': true,
         "processing": true,
+        columnDefs: [
+            {
+                "targets": [0],
+                "visible": false
+            }
+        ],
         columns: [
             {
                 data: 'id',
-                width: "40%"
             }, {
                 data: 'login',
-                width: "40%"
-            },
-            {
+                width: "60%"
+            }, {
+                data: 'enabled',
+                width: "20%",
+                render: function ( data, type, _ ) {
+                    if(type==='display'){
+                        return "<b>"+(data?"yes":"no")+"</b>"
+                    }else{
+                        return ''
+                    }
+                }
+            }, {
                 width: "20%",
                 "searchable":false,
                 "sortable":false,

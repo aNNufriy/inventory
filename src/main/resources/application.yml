@@ -1,6 +1,6 @@
 spring:
   liquibase:
-    enabled: false
+    enabled: true
   mvc:
     static-path-pattern: '/resources/**'
   jpa:
@@ -21,3 +21,5 @@ server:
 logging:
   level:
     root: INFO
+security:
+  ignored: /**
