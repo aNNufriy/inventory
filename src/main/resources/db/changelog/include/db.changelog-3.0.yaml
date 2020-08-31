@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: liquibase
+      comment: "Create admin user"
+      changes:
+        - insert:
+            tableName: login_user_role
+            columns:
+              - column:
+                  name: id
+                  value: "0ebd7fa9-177d-483d-99de-3b7347c80cee"
+              - column:
+                  name: name
+                  value: "administrators"
+        - insert:
+            tableName: login_user_role
+            columns:
+              - column:
+                  name: id
+                  value: "e59c98d0-b3f2-4f9d-a1e5-d4c915a4c2fa"
+              - column:
+                  name: name
+                  value: "users"
+        - insert:
+            tableName: login_user_login_user_roles
+            columns:
+              - column:
+                  name: login_users_id
+                  value: "ad4d892d-8b87-4ca3-a5ec-1c0bee62e382"
+              - column:
+                  name: login_user_roles_id
+                  value: "e59c98d0-b3f2-4f9d-a1e5-d4c915a4c2fa"
+        - insert:
+            tableName: login_user_login_user_roles
+            columns:
+              - column:
+                  name: login_users_id
+                  value: "da17561f-fd60-41a4-b907-093b02c7b522"
+              - column:
+                  name: login_user_roles_id
+                  value: "0ebd7fa9-177d-483d-99de-3b7347c80cee"
+      rollback:
+        - delete:
+            tableName: login_user_role
+            where:  id='0ebd7fa9-177d-483d-99de-3b7347c80cee'
+        - delete:
+            tableName: login_user_role
+            where:  id='e59c98d0-b3f2-4f9d-a1e5-d4c915a4c2fa'
