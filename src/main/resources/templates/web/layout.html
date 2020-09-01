@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">INVENTORY </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/resources/favicon.ico" type="image/ico" />
+
+    <th:block th:replace="web/fragments/head/scripts :: commonScripts"/>
+    <th:block th:replace="web/fragments/head/styles :: commonStyles"/>
+</head>
+<body>
+<div th:replace="web/fragments/header :: mainMenu"></div>
+<div class="container">
+    <div th:each="notification : ${notifications}">
+        <div class="alert" th:classappend="${notification.type.toString().toLowerCase()}">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span th:text="${notification.text}"/>
+        </div>
+    </div>
+    <th:block layout:fragment="content"/>
+</div> <!-- /container -->
+
+<footer th:replace="web/fragments/footer :: footer"/>
+</body>
+</html>
