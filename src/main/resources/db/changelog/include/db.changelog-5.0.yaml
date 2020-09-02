@@ -18,6 +18,17 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              - column:
+                  name: parent_id
+                  type: UUID
+        - addForeignKeyConstraint:
+            baseColumnNames: parent_id
+            baseTableName: ansible_host_group
+            constraintName: FKj6m8fwv7oqv74fcehir1a9ffy
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: ansible_host_group
       rollback:
         - delete:
             tableName: ansible_host_group

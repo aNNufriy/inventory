@@ -38,6 +38,7 @@ public class AnsibleHostGroupController extends AbstractWebController {
     public String ansibleHostAdd(Model model) {
         model.addAttribute("title","Add ansibleHostGroup");
         model.addAttribute("ansibleHostGroup", new AnsibleHostGroup());
+        model.addAttribute("ansibleHostGroups", ansibleHostGroupRepository.findAll());
         return "ansible/pages/ansibleHostGroup/edit";
     }
 
@@ -49,6 +50,7 @@ public class AnsibleHostGroupController extends AbstractWebController {
             throw new NoSuchElementException("No such ansibleHostGroup: " + id);
         } else {
             model.addAttribute("ansibleHostGroup", optionalAnsibleHostGroup.get());
+            model.addAttribute("ansibleHostGroups", ansibleHostGroupRepository.findAll());
         }
         return "ansible/pages/ansibleHostGroup/edit";
     }
@@ -62,6 +64,7 @@ public class AnsibleHostGroupController extends AbstractWebController {
     public String ansibleHostEditPost(@Valid AnsibleHostGroup ansibleHostGroup, BindingResult bindingResult, RedirectAttributes attr, Model model) {
         if(bindingResult.hasErrors()){
             processBindingResults(bindingResult, attr, model);
+            model.addAttribute("ansibleHostGroups", ansibleHostGroupRepository.findAll());
             return "ansible/pages/ansibleHostGroup/edit";
         } else {
             ansibleHostGroupRepository.save(ansibleHostGroup);
