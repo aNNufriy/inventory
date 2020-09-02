@@ -38,19 +38,17 @@ public class AnsibleHostController extends AbstractWebController {
     public String ansibleHostAdd(Model model) {
         model.addAttribute("title","Add ansibleHost");
         model.addAttribute("ansibleHost", new AnsibleHost());
-        model.addAttribute("loginUserRoles", ansibleHostRepository.findAll());
         return "ansible/pages/ansibleHost/edit";
     }
 
     @RequestMapping(value = "{id}/edit", method = RequestMethod.GET)
     public String ansibleHostEdit(@PathVariable("id") UUID id, Model model) {
-        model.addAttribute("title", "Edit loginUser");
-        Optional<AnsibleHost> optionalLoginUser = ansibleHostRepository.findById(id);
-        if (optionalLoginUser.isEmpty()) {
-            throw new NoSuchElementException("No such loginUser: " + id);
+        model.addAttribute("title", "Edit ansible host");
+        Optional<AnsibleHost> optionalAnsibleHost = ansibleHostRepository.findById(id);
+        if (optionalAnsibleHost.isEmpty()) {
+            throw new NoSuchElementException("No such ansibleHost: " + id);
         } else {
-            model.addAttribute("loginUser", optionalLoginUser.get());
-            model.addAttribute("loginUserRoles", ansibleHostRepository.findAll());
+            model.addAttribute("ansibleHost", optionalAnsibleHost.get());
         }
         return "ansible/pages/ansibleHost/edit";
     }
@@ -64,7 +62,6 @@ public class AnsibleHostController extends AbstractWebController {
     public String ansibleHostEditPost(@Valid AnsibleHost ansibleHost, BindingResult bindingResult, RedirectAttributes attr, Model model) {
         if(bindingResult.hasErrors()){
             processBindingResults(bindingResult, attr, model);
-            model.addAttribute("loginUserRoles", ansibleHostRepository.findAll());
             return "ansible/pages/ansibleHost/edit";
         } else {
             ansibleHostRepository.save(ansibleHost);

@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/layout}">
+
+<head>
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
+</head>
+
+<th:block layout:fragment="content">
+    <form role="form" method="post" class="form" action="/ansibleHostGroup/edit" enctype="multipart/form-data" th:object="${ansibleHostGroup}">
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" th:readonly="true" th:field="*{id}" id="id" name="id" class="form-control"
+                   placeholder="ID"/>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <p class="inline-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name</p>
+            <input type="text" th:readonly="false" th:field="*{name}" id="name" name="name"
+                   class="form-control"
+                   placeholder="Name"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
+    </form>
+</th:block>
+</html>

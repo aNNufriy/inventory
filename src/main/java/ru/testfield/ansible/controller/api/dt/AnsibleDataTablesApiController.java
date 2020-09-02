@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.testfield.ansible.model.AnsibleHost;
+import ru.testfield.ansible.model.AnsibleHostGroup;
+import ru.testfield.ansible.repository.AnsibleHostGroupRepository;
 import ru.testfield.ansible.repository.AnsibleHostRepository;
 
 import javax.validation.Valid;
@@ -17,14 +19,22 @@ public class AnsibleDataTablesApiController {
 
     private final AnsibleHostRepository ansibleHostRepository;
 
+    private final AnsibleHostGroupRepository ansibleHostGroupRepository;
 
-    public AnsibleDataTablesApiController(AnsibleHostRepository ansibleHostRepository) {
+
+    public AnsibleDataTablesApiController(AnsibleHostRepository ansibleHostRepository, AnsibleHostGroupRepository ansibleHostGroupRepository) {
         this.ansibleHostRepository = ansibleHostRepository;
+        this.ansibleHostGroupRepository = ansibleHostGroupRepository;
     }
 
     @RequestMapping(value = "/ansibleHost", method = RequestMethod.POST)
     public DataTablesOutput<AnsibleHost> getAnsibleHosts(@Valid @RequestBody DataTablesInput input) {
         return ansibleHostRepository.findAll(input);
+    }
+
+    @RequestMapping(value = "/ansibleHostGroup", method = RequestMethod.POST)
+    public DataTablesOutput<AnsibleHostGroup> getAnsibleHostGroups(@Valid @RequestBody DataTablesInput input) {
+        return ansibleHostGroupRepository.findAll(input);
     }
 
 }

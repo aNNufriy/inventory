@@ -6,47 +6,28 @@
 <head>
     <title th:text="${title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
-    <link rel="stylesheet" href="/resources/css/sticky-footer.css">
-    <link rel="stylesheet" href="/resources/css/sticky-footer.css">
-    <script>
-        $(function () {
-            $("#roles").select2({
-                placeholder: "Select a State",
-                allowClear: true
-            });
-        });
-    </script>
 </head>
 
 <th:block layout:fragment="content">
-    <form role="form" method="post" class="form" action="/loginUser/edit" enctype="multipart/form-data" th:object="${loginUser}">
+    <form role="form" method="post" class="form" action="/ansibleHost/edit" enctype="multipart/form-data" th:object="${ansibleHost}">
         <div class="form-group">
             <label for="id">ID</label>
-            <input type="text" th:readonly="true" th:value="${loginUser?.id}" id="id" name="id" class="form-control"
+            <input type="text" th:readonly="true" th:field="*{id}" id="id" name="id" class="form-control"
                    placeholder="ID"/>
         </div>
         <div class="form-group">
-            <label for="login">Login</label>
-            <p class="inline-error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login error</p>
-            <input type="text" id="login" th:field="*{login}" class="form-control" placeholder="Login"/>
+            <label for="hostName">HostName</label>
+            <p class="inline-error" th:if="${#fields.hasErrors('hostName')}" th:errors="*{hostName}">Host Name</p>
+            <input type="text" th:readonly="false" th:field="*{hostName}" id="hostName" name="hostName"
+                   class="form-control"
+                   placeholder="HostName"/>
         </div>
         <div class="form-group">
-            <label for="enabled">Enabled</label>
-            <input type="checkbox" th:field="*{enabled}" id="enabled"/>
-        </div>
-        <div class="form-group">
-            <label for="roles">Roles</label>
-            <select id="roles" th:field="*{loginUserRoles}" class="form-control" data-placeholder = "Select roles" multiple="multiple">
-                <option th:each="loginUserRole : ${loginUserRoles}"
-                        th:field="*{loginUserRoles}"
-                        th:value="${loginUserRole.id}"
-                        th:text="${loginUserRole.name}">
-                </option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="passwordBcryptHash">Password</label>
-            <input type="password" th:field="*{passwordBcryptHash}" id="passwordBcryptHash" class="form-control" placeholder="Password"/>
+            <label for="address">Address</label>
+            <p class="inline-error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address</p>
+            <input type="text" th:readonly="false" th:field="*{address}" id="address" name="address"
+                   class="form-control"
+                   placeholder="Address"/>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
     </form>
