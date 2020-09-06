@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: liquibase
+      changes:
+        - addColumn:
+            tableName: ansible_host
+            columns:
+              - column:
+                  name: group_id
+                  type: UUID
+        - addForeignKeyConstraint:
+            baseColumnNames: group_id
+            baseTableName: ansible_host
+            constraintName: fk_ansible_host_ansible_host_group
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: ansible_host_group
+      rollback:
+        -  dropForeignKeyConstraint:
+            baseTableName:  ansible_host
+            baseTableSchemaName:  public
+            constraintName:  fk_ansible_host_ansible_host_group

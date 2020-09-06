@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.testfield.ansible.model.AnsibleHost;
+import ru.testfield.ansible.repository.AnsibleHostGroupRepository;
 import ru.testfield.ansible.repository.AnsibleHostRepository;
 import ru.testfield.web.controller.AbstractWebController;
 
@@ -23,9 +24,12 @@ public class AnsibleHostController extends AbstractWebController {
 
     private final AnsibleHostRepository ansibleHostRepository;
 
+    private final AnsibleHostGroupRepository ansibleHostGroupRepository;
+
     @Autowired
-    public AnsibleHostController(AnsibleHostRepository ansibleHostRepository) {
+    public AnsibleHostController(AnsibleHostRepository ansibleHostRepository, AnsibleHostGroupRepository ansibleHostGroupRepository) {
         this.ansibleHostRepository = ansibleHostRepository;
+        this.ansibleHostGroupRepository = ansibleHostGroupRepository;
     }
 
     @RequestMapping(value = {"/", ""})
@@ -38,6 +42,7 @@ public class AnsibleHostController extends AbstractWebController {
     public String ansibleHostAdd(Model model) {
         model.addAttribute("title","Add ansibleHost");
         model.addAttribute("ansibleHost", new AnsibleHost());
+        model.addAttribute("ansibleHostGroups", ansibleHostGroupRepository.findAll());
         return "ansible/pages/ansibleHost/edit";
     }
 
@@ -49,6 +54,7 @@ public class AnsibleHostController extends AbstractWebController {
             throw new NoSuchElementException("No such ansibleHost: " + id);
         } else {
             model.addAttribute("ansibleHost", optionalAnsibleHost.get());
+            model.addAttribute("ansibleHostGroups", ansibleHostGroupRepository.findAll());
         }
         return "ansible/pages/ansibleHost/edit";
     }

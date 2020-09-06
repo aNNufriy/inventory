@@ -1,9 +1,6 @@
 package ru.testfield.ansible.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +17,6 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class AnsibleHostGroup {
 
     @Id
@@ -32,18 +28,29 @@ public class AnsibleHostGroup {
     @Column(unique = true)
     private String name;
 
-    @JsonIgnore
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="name")
     private Set<AnsibleHostGroup> children;
 
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="name")
+    private Set<AnsibleHost> hosts;
+
     @ManyToOne
-    @JsonIdentityReference(alwaysAsId=true)
+    @JsonIgnore
     private AnsibleHostGroup parent;
 
     @PreRemove
     private void removeGroupFromUsers() {
         for (AnsibleHostGroup childGroup : children) {
             childGroup.parent = null;
+        }
+        for (AnsibleHost host : hosts) {
+            host.setGroup(null);
         }
     }
 }

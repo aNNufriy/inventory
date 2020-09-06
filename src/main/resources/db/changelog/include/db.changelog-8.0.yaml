@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9
+      author: liquibase
+      changes:
+        - insert:
+            tableName: ansible_host_group
+            columns:
+              - column:
+                  name: id
+                  value: "4175ea16-f714-418f-a359-e42fa2a1bf9f"
+              - column:
+                  name: name
+                  value: "group-1"
+        - insert:
+            tableName: ansible_host_group
+            columns:
+              - column:
+                  name: id
+                  value: "5a890667-319b-4fe4-bdbe-13ae44c84591"
+              - column:
+                  name: name
+                  value: "group-1-1"
+              - column:
+                  name: parent_id
+                  value: "4175ea16-f714-418f-a359-e42fa2a1bf9f"
+        - insert:
+            tableName: ansible_host_group
+            columns:
+              - column:
+                  name: id
+                  value: "7f5c2da5-b33b-494f-939e-87b1e1feabc1"
+              - column:
+                  name: name
+                  value: "group-2"
+      rollback:
+        -  delete:
+             tableName:  ansible_host_group
+             where:  id="4175ea16-f714-418f-a359-e42fa2a1bf9f"
+        -  delete:
+             tableName:  ansible_host_group
+             where:  id="5a890667-319b-4fe4-bdbe-13ae44c84591"
+        -  delete:
+             tableName:  ansible_host_group
+             where:  id="7f5c2da5-b33b-494f-939e-87b1e1feabc1"

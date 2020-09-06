@@ -22,10 +22,7 @@ $(document).ready(function () {
             {
                 data: 'id',
             }, {
-                data: 'hostName',
-                width: "30%"
-            }, {
-                data: 'address',
+                data: 'name',
                 width: "30%"
             }, {
                 width: "20%",

@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 10
+      author: liquibase
+      changes:
+        - createTable:
+            tableName: ansible_host_variables
+            columns:
+              - column:
+                  name: ansible_host_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: variable_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: variable_value
+                  type: varchar(255)
+        - addPrimaryKey:
+            columnNames: "ansible_host_id, variable_name"
+            constraintName: pk_ansible_host_variable
+            tableName: ansible_host_variables
+        - addForeignKeyConstraint:
+            baseColumnNames: ansible_host_id
+            baseTableName: ansible_host_variables
+            constraintName: fk_ansible_host_ansible_host_variable
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: ansible_host
+      rollback:
+        - delete:
+            tableName: ansible_host_variables

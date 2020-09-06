@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: liquibase
+      changes:
+        - dropColumn:
+            tableName: ansible_host
+            columns:
+              - column:
+                  name: address
+        -  renameColumn:
+             tableName: ansible_host
+             columnDataType:  varchar(100)
+             newColumnName:  name
+             oldColumnName:  host_name
+      rollback:
+        - addColumn:
+            tableName: ansible_host
+            columns:
+              - column:
+                  name: address
+                  type: varchar(100)
+        - renameColumn:
+            tableName: ansible_host
+            columnDataType:  varchar(100)
+            newColumnName:  host_name
+            oldColumnName:  name
