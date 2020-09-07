@@ -66,9 +66,10 @@ public class AnsibleHostController extends AbstractWebController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String ansibleHostEditPost(@Valid AnsibleHost ansibleHost, HttpServletRequest request, BindingResult bindingResult, RedirectAttributes attr, Model model) {
+    public String ansibleHostEditPost(@Valid AnsibleHost ansibleHost, BindingResult bindingResult, RedirectAttributes attr, Model model) {
         if(bindingResult.hasErrors()){
             processBindingResults(bindingResult, attr, model);
+            model.addAttribute("ansibleHostGroups", ansibleHostGroupRepository.findAll());
             return "ansible/pages/ansibleHost/edit";
         } else {
             ansibleHostRepository.save(ansibleHost);

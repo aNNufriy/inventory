@@ -7,44 +7,23 @@
     <title th:text="${title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.14.0/css/all.min.css}"/>
+    <script src="/resources/js/mapBindingFunctions.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             document.variableCounter = 0;
-            document.querySelectorAll('.addItemButton, .removeItemButton').forEach(function(button) {button.onclick = function(firedEvent){
-                firedEvent.preventDefault();
-                processItemButtonClick(firedEvent);
-            }})
-        });
-        function processItemButtonClick(firedEvent) {
-            if(firedEvent.target.className.split(" ").indexOf("addItemButton") > -1){
-                var clone = document.querySelector('#variablerow').content.cloneNode(true);
-                clone.querySelector('.variable-name').name = 'variable-key-'+create_UUID()
-                clone.querySelector('.variable-value').name = 'variable-value-'+create_UUID()
-                clone.querySelector('button').onclick = function(firedEvent){
+            document.querySelectorAll('.addItemButton, .removeItemButton').forEach(function (button) {
+                button.onclick = function (firedEvent) {
                     firedEvent.preventDefault();
                     processItemButtonClick(firedEvent);
-                };
-                document.querySelector('#variablerows').appendChild(clone)
-            } else {
-                if ($(firedEvent.target).hasClass('removeItemButton')) {
-                    $(firedEvent.target.parentElement.parentElement).remove()
                 }
-            }
-        }
-        function create_UUID(){
-            var dt = new Date().getTime();
-            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = (dt + Math.random()*16)%16 | 0;
-                dt = Math.floor(dt/16);
-                return (c=='x' ? r :(r&0x3|0x8)).toString(16);
-            });
-            return uuid;
-        }
-
+            })
+            remapKeysAndValues();
+        });
     </script>
 </head>
 <th:block layout:fragment="content">
-    <form role="form" method="post" class="form" action="/ansibleHost/edit" enctype="multipart/form-data"
+    <form id="submitForm" role="form" method="post" class="form" action="/ansibleHost/edit"
+          enctype="multipart/form-data"
           th:object="${ansibleHost}">
         <div class="form-group">
             <label for="id">ID</label>
@@ -79,30 +58,35 @@
                 </div>
                 <hr/>
                 <th:block th:each="variable: *{variables}">
-
-                    <div class="row">
-                        <th:block th:with="uuid=${T(java.util.UUID).randomUUID()}">
-                            <div class="col-lg-5">
-                                <input class="form-control" th:name="'variable-key-'+${uuid}" type="text"
+                    <div class="row value-keeper">
+                        <div class="col-lg-5">
+                            <label>
+                                <input class="form-control" name='variable-key' type="text"
                                        placeholder="variable name" th:value="${variable.key}"/>
-                            </div>
-                            <div class="col-lg-5">
-                                <input class="form-control" th:name="'variable-value-'+${uuid}" type="text"
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <label>
+                                <input class="form-control" name='variable-value' type="text"
                                        placeholder="variable value" th:value="${variable.value}"/>
-                            </div>
-                            <div class="col-lg-2">
-                                <button class="btn fa btn-warning removeItemButton fa-minus"></button>
-                            </div>
-                        </th:block>
+                            </label>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn fa btn-warning removeItemButton fa-minus"></button>
+                        </div>
                     </div>
                 </th:block>
                 <template id="variablerow">
-                    <div class="row">
+                    <div class="row value-keeper">
                         <div class="col-lg-5">
-                            <input class="form-control variable-name" type="text" placeholder="variable name"/>
+                            <label>
+                                <input class="form-control" name="variable-key" type="text" placeholder="variable name"/>
+                            </label>
                         </div>
                         <div class="col-lg-5">
-                            <input class="form-control variable-value" type="text" placeholder="variable value"/>
+                            <label>
+                                <input class="form-control" name="variable-value" type="text" placeholder="variable value"/>
+                            </label>
                         </div>
                         <div class="col-lg-2">
                             <button class="btn fa btn-warning removeItemButton fa-minus"></button>
@@ -111,7 +95,7 @@
                 </template>
             </fieldset>
         </div>
-        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
+        <button type="submit" class="submit-button btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
     </form>
 </th:block>
 </html>
