@@ -1,15 +1,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{web/layout}">
-
+      layout:decorate="~{web/layout}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title th:text="${title}"></title>
     <link rel="stylesheet" th:href="@{/webjars/datatables/1.10.21/css/jquery.dataTables.min.css}"/>
-</head>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.14.0/css/all.min.css}"/>
+    <script>
+        $(document).ready(function() {
+            document.variableCounter = 0;
+            document.querySelectorAll('.addItemButton, .removeItemButton').forEach(function(button) {button.onclick = function(firedEvent){
+                firedEvent.preventDefault();
+                processItemButtonClick(firedEvent);
+            }})
+        });
+        function processItemButtonClick(firedEvent) {
+            if(firedEvent.target.className.split(" ").indexOf("addItemButton") > -1){
+                var clone = document.querySelector('#variablerow').content.cloneNode(true);
+                clone.querySelector('.variable-name').name = 'variable-key-'+create_UUID()
+                clone.querySelector('.variable-value').name = 'variable-value-'+create_UUID()
+                clone.querySelector('button').onclick = function(firedEvent){
+                    firedEvent.preventDefault();
+                    processItemButtonClick(firedEvent);
+                };
+                document.querySelector('#variablerows').appendChild(clone)
+            } else {
+                if ($(firedEvent.target).hasClass('removeItemButton')) {
+                    $(firedEvent.target.parentElement.parentElement).remove()
+                }
+            }
+        }
+        function create_UUID(){
+            var dt = new Date().getTime();
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (dt + Math.random()*16)%16 | 0;
+                dt = Math.floor(dt/16);
+                return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+            });
+            return uuid;
+        }
 
+    </script>
+</head>
 <th:block layout:fragment="content">
-    <form role="form" method="post" class="form" action="/ansibleHost/edit" enctype="multipart/form-data" th:object="${ansibleHost}">
+    <form role="form" method="post" class="form" action="/ansibleHost/edit" enctype="multipart/form-data"
+          th:object="${ansibleHost}">
         <div class="form-group">
             <label for="id">ID</label>
             <input type="text" th:readonly="true" th:field="*{id}" id="id" name="id" class="form-control"
@@ -24,7 +60,7 @@
         </div>
         <div class="form-group">
             <label for="group">Group</label>
-            <select id="group" name="group" class="form-control" data-placeholder = "Select group" th:field="*{group}">
+            <select id="group" name="group" class="form-control" data-placeholder="Select group" th:field="*{group}">
                 <option value=""></option>
                 <option th:each="ansibleHostGroup: ${ansibleHostGroups}"
                         th:field="*{group}"
@@ -32,6 +68,48 @@
                         th:text="${ansibleHostGroup.name}">
                 </option>
             </select>
+        </div>
+        <div class="container">
+            <fieldset id="variablerows" class="form-group border p-2">
+                <legend>AnsibleHost Variables</legend>
+                <div class="row">
+                    <div class="col-lg-2 offset-lg-5">
+                        <button class="btn fa btn-success addItemButton fa-plus"></button>
+                    </div>
+                </div>
+                <hr/>
+                <th:block th:each="variable: *{variables}">
+
+                    <div class="row">
+                        <th:block th:with="uuid=${T(java.util.UUID).randomUUID()}">
+                            <div class="col-lg-5">
+                                <input class="form-control" th:name="'variable-key-'+${uuid}" type="text"
+                                       placeholder="variable name" th:value="${variable.key}"/>
+                            </div>
+                            <div class="col-lg-5">
+                                <input class="form-control" th:name="'variable-value-'+${uuid}" type="text"
+                                       placeholder="variable value" th:value="${variable.value}"/>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn fa btn-warning removeItemButton fa-minus"></button>
+                            </div>
+                        </th:block>
+                    </div>
+                </th:block>
+                <template id="variablerow">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <input class="form-control variable-name" type="text" placeholder="variable name"/>
+                        </div>
+                        <div class="col-lg-5">
+                            <input class="form-control variable-value" type="text" placeholder="variable value"/>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn fa btn-warning removeItemButton fa-minus"></button>
+                        </div>
+                    </div>
+                </template>
+            </fieldset>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px;">Save</button>
     </form>

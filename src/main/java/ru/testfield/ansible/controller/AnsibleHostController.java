@@ -13,6 +13,7 @@ import ru.testfield.ansible.repository.AnsibleHostGroupRepository;
 import ru.testfield.ansible.repository.AnsibleHostRepository;
 import ru.testfield.web.controller.AbstractWebController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -65,7 +66,7 @@ public class AnsibleHostController extends AbstractWebController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String ansibleHostEditPost(@Valid AnsibleHost ansibleHost, BindingResult bindingResult, RedirectAttributes attr, Model model) {
+    public String ansibleHostEditPost(@Valid AnsibleHost ansibleHost, HttpServletRequest request, BindingResult bindingResult, RedirectAttributes attr, Model model) {
         if(bindingResult.hasErrors()){
             processBindingResults(bindingResult, attr, model);
             return "ansible/pages/ansibleHost/edit";
