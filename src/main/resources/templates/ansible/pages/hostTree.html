@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/layout}">
+<head>
+  <meta charset="utf-8">
+  <title>jsTree test</title>
+  <link rel="stylesheet" th:href="@{/webjars/jstree/3.3.8/themes/default/style.min.css}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+  <div id="jstree"></div>
+  <button>demo button</button>
+  <script th:src="@{/webjars/jstree/3.3.8/jstree.min.js}"></script>
+  <script>
+  $(function () {
+    $('#jstree').jstree({
+      'core' : {
+        'data' : {
+          'url' : function (node) {
+            return '/inventory/jstree';
+          },
+          'data' : function (node) {
+            return { 'id' : node.id };
+          }
+        }
+      }});
+  });
+  </script>
+</th:block>
+  </body>
+
+</html>
