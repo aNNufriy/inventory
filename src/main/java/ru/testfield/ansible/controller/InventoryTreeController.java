@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class InventoryTreeController {
 
-    @RequestMapping("/tree")
+    @RequestMapping("/")
     public String index(){
         return "ansible/pages/hostTree";
     }

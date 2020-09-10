@@ -9,23 +9,44 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-  <div id="jstree"></div>
-  <button>demo button</button>
+  <div class="row">
+    <div class="col-md-12">
+      <fieldset class="form-group border p-2">
+        <legend>AnsibleHosts tree</legend>
+        <div id="jstree"></div>
+      </fieldset>
+    </div>
+  </div>
   <script th:src="@{/webjars/jstree/3.3.8/jstree.min.js}"></script>
   <script>
-  $(function () {
-    $('#jstree').jstree({
-      'core' : {
-        'data' : {
-          'url' : function (node) {
-            return '/inventory/jstree';
+    $(function () {
+      $('#jstree').jstree({
+        'plugins': ["themes", "types"],
+        types: {
+          "root": {
+            "icon" : "glyphicon glyphicon-plus"
           },
-          'data' : function (node) {
-            return { 'id' : node.id };
+          "server": {
+            "icon" : "/resources/images/server.png"
+          },
+            "default" : {
           }
-        }
-      }});
-  });
+        },
+        'core' : {
+          'data' : {
+            'url' : function (node) {
+              return '/inventory/jstree';
+            },
+            'data' : function (node) {
+              return { 'id' : node.id };
+            }
+          }
+        }}).bind("select_node.jstree", function (e, data) {
+          if(data.node.type!="default"){
+            window.open("/ansibleHost/"+data.node.id+"/edit", '_blank');
+          }
+        });
+    });
   </script>
 </th:block>
   </body>
