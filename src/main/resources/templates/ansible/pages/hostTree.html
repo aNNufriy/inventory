@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/layout}">
+<head>
+  <meta charset="utf-8">
+  <title>jsTree test</title>
+  <link rel="stylesheet" th:href="@{/webjars/jstree/3.3.8/themes/default/style.min.css}"/>
+</head>
+<body>
+<th:block layout:fragment="content">
+  <div class="row">
+    <div class="col-md-12">
+      <fieldset class="form-group border p-2">
+        <legend>AnsibleHosts tree</legend>
+        <div id="jstree"></div>
+      </fieldset>
+    </div>
+  </div>
+  <script th:src="@{/webjars/jstree/3.3.8/jstree.min.js}"></script>
+  <script>
+    $(function () {
+      $('#jstree').jstree({
+        'plugins': ["themes", "types"],
+        types: {
+          "root": {
+            "icon" : "glyphicon glyphicon-plus"
+          },
+          "server": {
+            "icon" : "/resources/images/server.png"
+          },
+            "default" : {
+          }
+        },
+        'core' : {
+          'data' : {
+            'url' : function (node) {
+              return '/inventory/jstree';
+            },
+            'data' : function (node) {
+              return { 'id' : node.id };
+            }
+          }
+        }}).bind("select_node.jstree", function (e, data) {
+          if(data.node.type!="default"){
+            window.open("/ansibleHost/"+data.node.id+"/edit", '_blank');
+          }
+        });
+    });
+  </script>
+</th:block>
+  </body>
+
+</html>

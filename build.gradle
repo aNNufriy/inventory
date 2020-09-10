@@ -42,6 +42,7 @@ dependencies {
 	implementation 'com.github.zhanhb:thymeleaf-layout-dialect:2.4.1'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.webjars:font-awesome:5.14.0'
+	implementation 'org.webjars:jstree:3.3.8'
 }
 
 test {
