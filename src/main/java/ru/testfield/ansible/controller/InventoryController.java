@@ -1,20 +1,22 @@
-package ru.testfield.web.controller;
+package ru.testfield.ansible.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.testfield.ansible.model.AnsibleHost;
 import ru.testfield.ansible.model.AnsibleHostGroup;
 import ru.testfield.ansible.model.JstreeNode;
 import ru.testfield.ansible.repository.AnsibleHostGroupRepository;
 import ru.testfield.ansible.repository.AnsibleHostRepository;
 import ru.testfield.ansible.service.InventoryService;
+import ru.testfield.web.controller.AbstractWebController;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@RestController
+@Controller
 public class InventoryController extends AbstractWebController {
 
     private final InventoryService inventoryService;
@@ -27,11 +29,18 @@ public class InventoryController extends AbstractWebController {
         this.ansibleHostGroupRepository = ansibleHostGroupRepository;
     }
 
+    @RequestMapping("/")
+    public String index(){
+        return "ansible/pages/hostTree";
+    }
+
+    @ResponseBody
     @RequestMapping("/inventory/list")
     public Map<String,Object> getInventory(){
         return inventoryService.getInventory();
     }
 
+    @ResponseBody
     @RequestMapping("/inventory/jstree")
     public Set<JstreeNode> getInventoryJstree(@RequestParam String id) {
         Iterable<AnsibleHostGroup> allGroups = ansibleHostGroupRepository.findAll();

@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AbstractWebController {
+
+    @ModelAttribute("classActiveSettings")
+    public String cssActivePage() {
+        return "active";
+    }
+
     @ModelAttribute
     private void processFlashAttributes(RedirectAttributes attr, Model model){
         if(attr.getFlashAttributes().get("notifications")!=null){

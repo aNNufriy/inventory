@@ -7,14 +7,12 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="/resources/favicon.ico" type="image/ico" />
-    <link rel="stylesheet" href="/resources/css/sticky-footer.css">
     <th:block th:replace="web/fragments/head/scripts :: commonScripts"/>
     <th:block th:replace="web/fragments/head/styles :: commonStyles"/>
 </head>
 <body>
 <div th:replace="web/fragments/header :: mainMenu"></div>
-<div class="container">
+<div class="container pt-2">
     <div th:each="notification : ${notifications}">
         <div class="alert" th:classappend="${notification.type.toString().toLowerCase()}">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
