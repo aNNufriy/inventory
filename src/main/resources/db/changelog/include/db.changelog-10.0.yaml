@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 11
+      author: liquibase
+      changes:
+        - createTable:
+            tableName: ansible_management_key
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: sshKey
+                  type: text
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: ansible_task
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: body
+                  type: text
+                  constraints:
+                    nullable: false
+      rollback:
+        - delete:
+            tableName: ansible_management_key
+        - delete:
+            tableName: ansible_task

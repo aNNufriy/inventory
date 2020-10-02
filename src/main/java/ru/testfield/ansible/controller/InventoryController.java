@@ -14,6 +14,7 @@ import ru.testfield.web.controller.AbstractWebController;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Controller
@@ -44,10 +45,8 @@ public class InventoryController extends AbstractWebController {
     @RequestMapping("/inventory/jstree")
     public Set<JstreeNode> getInventoryJstree(@RequestParam String id) {
         Iterable<AnsibleHostGroup> allGroups = ansibleHostGroupRepository.findAll();
-        Set<JstreeNode> nodes = new TreeSet<>();
-        nodes.addAll(StreamSupport.stream(allGroups.spliterator(), false)
-                .map(this::getJSTreeNode)
-                .collect(Collectors.toSet()));
+        Set<JstreeNode> nodes = StreamSupport.stream(allGroups.spliterator(), false)
+                .map(this::getJSTreeNode).collect(Collectors.toCollection(TreeSet::new));
         Iterable<AnsibleHost> allHosts = ansibleHostRepository.findAll();
         nodes.addAll(StreamSupport.stream(allHosts.spliterator(), false)
                 .map(this::getJSTreeNode)

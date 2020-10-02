@@ -30,8 +30,8 @@ public class InventoryService {
         return groups;
     }
 
-    private Set<String> printVars(AnsibleHostGroup hostGroup) {
-        return new TreeSet<>();
+    private Map<String,String> printVars(AnsibleHostGroup hostGroup) {
+        return new TreeMap<>();
     }
 
     private Set<String> printChildren(AnsibleHostGroup hostGroup) {

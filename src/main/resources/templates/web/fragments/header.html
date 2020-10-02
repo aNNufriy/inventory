@@ -2,7 +2,7 @@
 <html   xmlns:th="http://www.thymeleaf.org">
 <body>
 <nav th:fragment="mainMenu" class="navbar navbar-expand-lg navbar-dark secondary-color bg-secondary">
-        <a class="navbar-brand" href="#"><strong>IMS</strong></a>
+        <a class="navbar-brand" href="/"><strong>IMS</strong></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -13,7 +13,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Hosts &raquo </a>
                             <ul class="submenu dropdown-menu">
-                                <li><a class="dropdown-item" href="/ansibleHost/">List</a></li>
+                                <li><a class="dropdown-item" th:href="@{/ansibleHost}">List</a></li>
                                 <li><a class="dropdown-item" href="/ansibleHost/add">Create</a></li>
                             </ul>
                         </li>
