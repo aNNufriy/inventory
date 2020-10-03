@@ -10,9 +10,10 @@ spring:
     open-in-view: true
     show-sql: false
   datasource:
-    url: jdbc:postgresql://localhost:5434/inventory
-    password: password
-    username: postgres
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    password: sa
+    username: sa
 server:
   port: 8086
   servlet:
